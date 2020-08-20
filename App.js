@@ -1,4 +1,7 @@
 import React from 'react';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native'
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,7 +14,6 @@ import {
 import SplashScreen from './src/screens/SplashScreen';
 
 export default class App extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -42,10 +44,12 @@ render(){
 
     return (
       <>
+      <NavigationContainer>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
           <Text>Hi :)</Text>
         </SafeAreaView>
+      </NavigationContainer>
       </>
     );
   };
