@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+//import { createBottomTabNavigator } from '@react-navigation-tabs';
 
 import {
   SafeAreaView,
@@ -10,6 +11,7 @@ import {
   Text,
   Button,
   StatusBar,
+  FlatList,
 } from 'react-native';
 
 import SplashScreen from './src/screens/SplashScreen';
@@ -27,10 +29,28 @@ function HomeScreen({ navigation }) {
   );
 }
 
+const datalist = [{key: '1'},{key: '2'},{key: '3'},{key: '4'},{key: '5'},{key: '6'},{key: '7'},{key: '8'},{key: '9'},{key: '10'}]
+
 function Stundenplan({ navigation }) {
+
+  _renderItem = ({item, index}) => {
+    return(
+        <View style={styles.itemStyle}>
+          <Text>{item.key}</Text>
+        </View>
+
+    )
+  }
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={styles.container}>
       <Text>Dein Stundenplan</Text>
+      <FlatList
+        data={datalist}
+        renderItem={this._renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={5}
+      />
 
       <Button
         title="Zurück"
@@ -84,6 +104,15 @@ export default class App extends React.Component {
   };
 }
 
-
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  itemStyle: {
+    backgroundColor: '#C65C5C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100,
+    flex: 1
+  },
 });
