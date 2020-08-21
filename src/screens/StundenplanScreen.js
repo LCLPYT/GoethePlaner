@@ -1,27 +1,50 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+
+  const Stack = createStackNavigator();
 
 
 export default class StundenplanScreen extends React.Component {
 
   _renderItem = ({item, index}) => {
+
+    const pressHandler = (key) => {
+      // hier code für gedrückte Stunden
+      console.log(key)
+    }
+
+
+
     return(
-        <View style={styles.itemStyle}>
-          <Text>{item.lesson}</Text>
-        </View>
+        <TouchableOpacity style={styles.itemStyle} onPress={() => pressHandler(item.key)}>
+            <Text>{item.lesson}</Text>
+        </TouchableOpacity>
     )
   }
+
+
+
   render(){
     return (
-      <View style={styles.container}>
-        <Text>Dein Stundenplan</Text>
-        <FlatList
-          data={datalist}
-          renderItem={this._renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={5}
-        />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen>
+            <SafeAreaView style={styles.container}>
+              <Text>Dein Stundenplan</Text>
+              <FlatList
+                data={datalist}
+                renderItem={this._renderItem}
+                keyExtractor={(item, index) => index.toString()}
+                numColumns={5}
+              />
+            </SafeAreaView>
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 }
