@@ -6,7 +6,9 @@ export default class SettingsScreen extends React.Component {
   render(){
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Klausuren</Text>
+        <View style={styles.titlebar}>
+          <Text style={styles.title}>Klausuren</Text>
+        </View>
       </View>
     );
   }
@@ -21,4 +23,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#14213D'
   },
+  titlebar: {
+    backgroundColor: '#f2f2f2',
+    paddingVertical: 10,
+    shadowRadius: 5,
+    shadowColor: 'black',
+    shadowOpacity: 0.25,
+    elevation: 10,
+    shadowOffset: { width: 0, height: 3 },
+  }
 });

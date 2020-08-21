@@ -14,10 +14,10 @@ import VertretungScreen from '../screens/VertretungScreen';
 var Images = [
   require('../../src/images/list_black.png'),
   require('../../src/images/list.png'),
+  require('../../src/images/HA_black.png'),
+  require('../../src/images/HA.png'),
   require('../../src/images/clock_black.png'),
   require('../../src/images/clock.png'),
-  require('../../src/images/list_black.png'),
-  require('../../src/images/list.png'),
 ];
 
 const Tab = createBottomTabNavigator();

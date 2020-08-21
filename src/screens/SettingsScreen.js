@@ -6,7 +6,9 @@ export default class SettingsScreen extends React.Component {
   render(){
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Einstellungen</Text>
+        <View style={styles.titlebar}>
+          <Text style={styles.title}>Einstellungen</Text>
+        </View>
       </View>
     );
   }
@@ -15,19 +17,19 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    
-    elevation: 6,
   },
   title: {
     textAlign: 'center',
     fontSize: 25,
     color: '#14213D',
   },
+  titlebar: {
+    backgroundColor: '#f2f2f2',
+    paddingVertical: 10,
+    shadowRadius: 5,
+    shadowColor: 'black',
+    shadowOpacity: 0.25,
+    elevation: 10,
+    shadowOffset: { width: 0, height: 3 },
+  }
 });
