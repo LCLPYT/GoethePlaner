@@ -9,63 +9,25 @@ import {
   ScrollView,
   View,
   Text,
+  Image,
   Button,
   StatusBar,
   FlatList,
 } from 'react-native';
 
 import SplashScreen from './src/screens/SplashScreen';
-//import StundenplanScreen from './src/screens/StundenplanScreen';
+import StundenplanScreen from './src/screens/StundenplanScreen';
+import VertretungScreen from './src/screens/VertretungScreen';
 
-class HomeScreen extends React.Component{
-  render(){
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-
-        {/* <Button
-          title="Zum Stundenplan"
-          onPress={() => navigation.navigate('Stundenplan')}
-        /> */}
-      </View>
-    );
-  }
-}
-
-const datalist = [{key: '1', lesson: "Ma"},{key: '2', lesson: "En"},{key: '3', lesson: "Pol"},{key: '4', lesson: "De"},{key: '5', lesson: "Ch"},{key: '6', lesson: "Ma"},{key: '7', lesson: "Ph"},{key: '8', lesson: "Mu"},{key: '9', lesson: ""},{key: '10', lesson: ""}]
-
-
-class StundenplanScreen extends React.Component {
-
-  _renderItem = ({item, index}) => {
-    return(
-        <View style={styles.itemStyle}>
-          <Text>{item.lesson}</Text>
-        </View>
-
-    )
-  }
-  render(){
-    return (
-      <View style={styles.container}>
-        <Text>Dein Stundenplan</Text>
-        <FlatList
-          data={datalist}
-          renderItem={this._renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={5}
-        />
-
-        {/* <Button
-          title="Zurück"
-          onPress={() => navigation.navigate('Home')} // or navigation.goBack()
-        /> */}
-      </View>
-    );
-  }
-}
 
 const Tab = createBottomTabNavigator();
+
+var Images = [
+  require('./src/images/clock_black.png'),
+  require('./src/images/clock.png'),
+  require('./src/images/list_black.png'),
+  require('./src/images/list.png'),
+];
 
 export default class App extends React.Component {
   constructor(props) {
@@ -101,29 +63,28 @@ export default class App extends React.Component {
       <NavigationContainer>
         <Tab.Navigator 
         initialRouteName="Home"
-        /*screenOptions={({ route }) => ({
+        screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+            let icon;
 
             if (route.name === 'Home') {
-              iconName = focused ? 'time' : 'time-outline';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'folder' : 'folder-outline';
+              icon = focused ? 2 : 3;
+            } else if (route.name === 'Stundenplan') {
+              icon = focused ? 0 : 1;
             }
 
-            return  <Icon
-              reverse
-              name='ios-american-football'
-              type='ionicon'
-              color='#517fa4'
+            return  <Image
+                source={Images[icon]}
+                resizeMode='contain'
+                style={{width: 30, height: 30}}
           />;
           },
-        })}*/
+        })}
         tabBarOptions={{
           activeTintColor: 'orange',
           inactiveTintColor: 'gray',
         }}>
-          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Home" component={VertretungScreen} />
           <Tab.Screen name="Stundenplan" component={StundenplanScreen} />
         </Tab.Navigator>
       </NavigationContainer>
