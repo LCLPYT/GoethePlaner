@@ -26,5 +26,6 @@ export default class VertretungScreen extends React.Component{
     title: {
         fontSize: 40
     }
+
   });
   
