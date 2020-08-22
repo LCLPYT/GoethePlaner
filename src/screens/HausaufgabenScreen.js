@@ -1,41 +1,67 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import Header from './HausaufgabenScreenParts/header';
+import TodoItem from './HausaufgabenScreenParts/todoItem';
+import AddTodo from './HausaufgabenScreenParts/addTodo';
 
-export default function App() {
+export default function HausaufgabenScreen() {
   const [todos, setTodos] = useState([
-    { text: 'S.17', key: '1' },
-    { text: 'S.18', key: '2' },
-    { text: 'S.19', key: '3' }
+    { text: 'buy coffee', key: '1' },
+    { text: 'create an app', key: '2' },
+    { text: 'play on the switch', key: '3' },
   ]);
 
-  return(
-    <View style={styles.container}>
-      // header
-      <View style={styles.content}>
-        // to form
-        <View style={styles.list}>
-          <FlatList
-            data={todos}
-            renderItem={({ item }) => (
-              <Text>{item.text}</Text>
-            )}
-          />
+  const pressHandler = (key) => {
+    setTodos(prevTodos => {
+      return prevTodos.filter(todo => todo.key != key);
+    });
+  };
+
+  const submitHandler = (text) => {
+    if(text.length > 3){
+      setText('');
+      setTodos(prevTodos => {
+        return [
+          { text, key: Math.random().toString() },
+          ...prevTodos
+        ];
+      });
+    } else {
+      Alert.alert('Ups..', 'Deine HA muss länger als 3 Buchstaben sein', [
+        {text: 'OK', onPress: () => console.log('alert closed') }
+      ]);
+    }
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <Header />
+        <View style={styles.content}>
+          <AddTodo submitHandler={submitHandler} />
+          <View style={styles.list}>
+            <FlatList
+              data={todos}
+              renderItem={({ item }) => (
+                <TodoItem item={item} pressHandler={pressHandler} />
+              )}
+            />
+          </View>
         </View>
       </View>
-
-    </View>
-  )
+    </TouchableWithoutFeedback>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   content: {
     padding: 40,
   },
   list: {
     marginTop: 20,
-  }
-})
+  },
+});

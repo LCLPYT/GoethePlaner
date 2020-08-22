@@ -10,6 +10,7 @@ import {
 
 import StundenplanScreen from '../screens/StundenplanScreen';
 import VertretungScreen from '../screens/VertretungScreen';
+import HausaufgabenScreen from '../screens/HausaufgabenScreen'
 
 var Images = [
   require('../../src/images/list_black.png'),
@@ -28,7 +29,7 @@ export default HomeTab = () => {
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let icon;
-    
+
         if (route.name === 'Vertretungen') {
           icon = focused ? 0 : 1;
         } else if (route.name === 'Hausaufgaben') {
@@ -37,7 +38,7 @@ export default HomeTab = () => {
         else if (route.name === 'Stundenplan') {
           icon = focused ? 4 : 5;
         }
-    
+
         return  <Image
             source={Images[icon]}
             resizeMode='contain'
@@ -51,7 +52,7 @@ export default HomeTab = () => {
     }}
     >
       <Tab.Screen name="Vertretungen" component={VertretungScreen} options={{title: 'Vertretungen'}} />
-      <Tab.Screen name="Hausaufgaben" component={StundenplanScreen} />
+      <Tab.Screen name="Hausaufgaben" component={HausaufgabenScreen} />
       <Tab.Screen name="Stundenplan" component={StundenplanScreen} />
     </Tab.Navigator>
   );
