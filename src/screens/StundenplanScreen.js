@@ -44,7 +44,6 @@ export default class StundenplanScreen extends React.Component {
 
   render(){
     return (
-<<<<<<< HEAD
       <SafeAreaView>
         <View style={styles.titlebar}>
         <Text style={styles.title}>Dein Stundenplan</Text>
@@ -54,10 +53,6 @@ export default class StundenplanScreen extends React.Component {
           renderItem={this._renderWeekdayItem}
           keyExtractor={(item, index) => index.toString()}
           numColumns={5}/>
-=======
-      <SafeAreaView style={styles.container}>
-        <Text>Dein Stundenplan</Text>
->>>>>>> HausaufgabenScreen
         <FlatList
           data={datalist}
           renderItem={this._renderItem}
