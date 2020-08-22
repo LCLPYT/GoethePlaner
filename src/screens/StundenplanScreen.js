@@ -30,21 +30,15 @@ export default class StundenplanScreen extends React.Component {
 
   render(){
     return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen>
-            <SafeAreaView style={styles.container}>
-              <Text>Dein Stundenplan</Text>
-              <FlatList
-                data={datalist}
-                renderItem={this._renderItem}
-                keyExtractor={(item, index) => index.toString()}
-                numColumns={5}
-              />
-            </SafeAreaView>
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView style={styles.container}>
+        <Text>Dein Stundenplan</Text>
+        <FlatList
+          data={datalist}
+          renderItem={this._renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={5}
+        />
+      </SafeAreaView>
     );
   }
 }
