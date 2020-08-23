@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import Header from './HausaufgabenScreenParts/header';
+import { StyleSheet, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard, SafeAreaView, Text } from 'react-native';
 import TodoItem from './HausaufgabenScreenParts/todoItem';
 import AddTodo from './HausaufgabenScreenParts/addTodo';
+import { globalStyles } from '../styles/global';
+import Button from 'react-native-buttonex'
 
 export default function HausaufgabenScreen() {
   const [todos, setTodos] = useState([
@@ -34,32 +35,36 @@ export default function HausaufgabenScreen() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <Header />
-        <View style={styles.content}>
-          <AddTodo submitHandler={submitHandler} />
-          <View style={styles.list}>
-            <FlatList
-              data={todos}
-              renderItem={({ item }) => (
-                <TodoItem item={item} pressHandler={pressHandler} />
-              )}
-            />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <SafeAreaView style={styles.container}>
+
+          <View style={globalStyles.titlebar}>
+            <Text style={globalStyles.title}>Deine Hausaufgaben</Text>
           </View>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
+          <View style={styles.content}>
+            <Button title="Hausaufgabe hinzufügen" bordered bold />
+            <View style={styles.list}>
+              <FlatList
+                data={todos}
+                renderItem={({ item }) => (
+                  <TodoItem item={item} pressHandler={pressHandler} />
+                )}
+              />
+            </View>
+          </View>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F2F2F2',
   },
   content: {
-    padding: 40,
+    padding: 10,
+    marginTop: 50,
   },
   list: {
     marginTop: 20,

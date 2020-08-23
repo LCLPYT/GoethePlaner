@@ -1,0 +1,14 @@
+State der App speichern, damit man nicht immer Splash Screen, etc sehen muss
+Eindeutig zeigen, wann die App etwas lädt (mit progress-bar)
+Trotzdem den Content ASAP zeigen
+Onboarding providen aber mit skippen (Toutorial oder so (https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/onboarding/))
+Popups nicht stacken, immer knopf zum 'wegdrücken' providen
+man muss immer wissen, wo man genau in der App  (Header) und wie man zurückkommt
+man muss überall schnell und einfach hinkommen
+Data entry:
+  Möglichkeiten Präsentieren
+  gute defaults setzen
+  Weitermachen (Button oder so) nur providen, wenn alle inputs getätigt sind
+  In Textfeldern Hinweise verbeuen (Passwort, etc...), wenn noch nichts drin steht
+Drag 'n Drop supporten (dass man sachen wie Fotos in HA's droppen kann oder so) + Multi-Item
+Unoffensichtlich Feedback/status geben (Haptic Feedback, https://developer.apple.com/design/human-interface-guidelines/ios/user-interaction/feedback/)
