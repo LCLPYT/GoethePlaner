@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import Stundenplan from '../screens/StundenplanScreen';
 
-const Stundeplanscreens = {
+const Stundepnlanscreens = {
   Stundenplan: {
     screen: Stundenplan,
     navigationOptions: {

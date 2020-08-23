@@ -1,35 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import React ,{useState} from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, TouchableWithoutFeedback, Keyboard, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import AddLessonForm from './AddLessonForm';
 
 
   const Stack = createStackNavigator();
 
+  let current_key = 0;
 
-export default class StundenplanScreen extends React.Component {
 
-  _renderItem = ({item, index}) => {
-
-    const pressHandler = (key) => {
-      // hier code für gedrückte Stunden
-      console.log(key)
-    }
-
-    if(item.lesson != ""){
-    return(
-        <TouchableOpacity style={styles.itemStyle} onPress={() => pressHandler(item.key)}>
-            <Text>{item.lesson}</Text>
-        </TouchableOpacity>
-    )
-    }else{
-      return(
-        <TouchableOpacity style={styles.itemStyleEmpty} onPress={() => pressHandler(item.key)}>
-      </TouchableOpacity>
-      )
-    }
-  }
 
   _renderWeekdayItem = ({item, index}) => {
 
@@ -41,8 +22,48 @@ export default class StundenplanScreen extends React.Component {
 
   }
 
+export default function StundenplanScreen ({navigaton}) {
 
-  render(){
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const weekdays = [{key: '1', day: "Mo"}, {key: '2', day: "Di"}, {key: '3', day: "Mi"}, {key: '4', day: "Do"}, {key: '5', day: "Fr"}]
+
+  const [datalist, setDatalist] = useState([{key: 1, lesson: "Ma", room: "K02"},{key: 2, lesson: "En"},{key: 3, lesson: "Pol"},{key: 4, lesson: "De"},{key: 5, lesson: "Ch"},{key: 6, lesson: "Ma"},
+  {key: 7, lesson: "Ph"},{key: 8, lesson: "Mu"},{key: 9, lesson: "Bio"},{key: 10, lesson: "Inf"}])
+
+  const editLesson = (edit) => {
+    edit.key = current_key;
+    setDatalist((currentReviews) => {
+      currentReviews[current_key-1] = edit
+      return currentReviews;
+    });
+    setModalOpen(false);
+  };
+
+
+  const _renderItem = ({item, index}) => {
+
+    const pressHandler = (key) => {
+      // hier code für gedrückte Stunden
+      console.log(key);
+      current_key = key;
+      setModalOpen(true)
+    }
+
+    if(item.lesson != ""){
+    return(
+        <TouchableOpacity style={styles.itemStyle} onPress={() => pressHandler(item.key)}>
+            <Text>{item.lesson}</Text>
+        </TouchableOpacity>
+    )
+    }else{
+      return(
+        <View style={styles.itemStyleEmpty}>
+        </View>
+      )
+    }
+  }
+  
     return (
       <SafeAreaView>
         <View style={styles.titlebar}>
@@ -50,25 +71,31 @@ export default class StundenplanScreen extends React.Component {
         </View>
         <FlatList
           data={weekdays}
-          renderItem={this._renderWeekdayItem}
+          renderItem={_renderWeekdayItem}
           keyExtractor={(item, index) => index.toString()}
           numColumns={5}/>
         <FlatList
           data={datalist}
-          renderItem={this._renderItem}
+          renderItem={_renderItem}
           keyExtractor={(item, index) => index.toString()}
           numColumns={5}
         />
+
+        <Modal visible={modalOpen} animationType='slide'>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                  <View style={styles.modalContent}>
+                    <AddLessonForm editLesson={editLesson} />
+                    <Button
+                      title="Cancel"
+                      color='#E0E0E0'
+                      onPress={() => setModalOpen(false)} 
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              </Modal>
       </SafeAreaView>
     );
-  }
 }
-
-const datalist = [{key: '1', lesson: "Ma"},{key: '2', lesson: "En"},{key: '3', lesson: "Pol"},{key: '4', lesson: "De"},{key: '5', lesson: "Ch"},{key: '6', lesson: "Ma"},
-{key: '7', lesson: "Ph"},{key: '8', lesson: "Mu"},{key: '9', lesson: "Bio"},{key: '10', lesson: "Inf"},{key: '11', lesson: "Ph"},{key: '12', lesson: "Inf"},{key: '13', lesson: "Ch"},{key: '14', lesson: ""},
-{key: '15', lesson: "Ph"},{key: '16', lesson: "Mu"},{key: '17', lesson: ""},{key: '18', lesson: "Bio"},{key: '19', lesson: ""},{key: '20', lesson: "Mu"},{key: '21', lesson: ""},{key: '22', lesson: ""}]
-
-const weekdays = [{key: '1', day: "Mo"}, {key: '2', day: "Di"}, {key: '3', day: "Mi"}, {key: '4', day: "Do"}, {key: '5', day: "Fr"}]
 
 const styles = StyleSheet.create({
   container: {
