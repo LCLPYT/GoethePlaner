@@ -2,7 +2,7 @@ import React ,{useState} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, TouchableWithoutFeedback, Keyboard, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { globalStyles } from '../styles/global';
 import AddLessonForm from './AddLessonForm';
 
 
@@ -29,7 +29,11 @@ export default function StundenplanScreen ({navigaton}) {
   const weekdays = [{key: '1', day: "Mo"}, {key: '2', day: "Di"}, {key: '3', day: "Mi"}, {key: '4', day: "Do"}, {key: '5', day: "Fr"}]
 
   const [datalist, setDatalist] = useState([{key: 1, lesson: "Ma", room: "K02"},{key: 2, lesson: "En"},{key: 3, lesson: "Pol"},{key: 4, lesson: "De"},{key: 5, lesson: "Ch"},{key: 6, lesson: "Ma"},
-  {key: 7, lesson: "Ph"},{key: 8, lesson: "Mu"},{key: 9, lesson: "Bio"},{key: 10, lesson: "Inf"}])
+  {key: 7, lesson: "Ph"},{key: 8, lesson: "Mu"},{key: 9, lesson: "Bio"},{key: 10, lesson: "Inf"},  {key: 11, lesson: "Ph"},{key: 12, lesson: "Mu"},{key: 13, lesson: "Bio"},{key: 14, lesson: "Inf"},  
+  {key: 15, lesson: "Ph"},{key: 16, lesson: "Mu"},{key: 17, lesson: "Bio"},{key: 18, lesson: "Inf"},  {key: 19, lesson: "Ph"},{key: 20, lesson: "Mu"},{key: 21, lesson: "Bio"},{key: 22, lesson: "Inf"},
+  {key: 23, lesson: "Ph"},{key: 24, lesson: "Mu"},{key: 25, lesson: "Bio"},{key: 26, lesson: "Inf"},  {key: 27, lesson: "Ph"},{key: 28, lesson: "Mu"},{key: 29, lesson: "Bio"},{key: 30, lesson: "Inf"},
+  {key: 31, lesson: "Ph"},{key: 32, lesson: "Mu"},{key: 33, lesson: "Bio"},{key: 34, lesson: ""},  {key: 35, lesson: "Ph"},{key: 36, lesson: "Mu"},{key: 37, lesson: ""},{key: 38, lesson: "Inf"}, 
+  {key: 39, lesson: ""},{key: 40, lesson: "Mu"}])
 
   const editLesson = (edit) => {
     edit.key = current_key;
@@ -66,8 +70,8 @@ export default function StundenplanScreen ({navigaton}) {
   
     return (
       <SafeAreaView>
-        <View style={styles.titlebar}>
-        <Text style={styles.title}>Dein Stundenplan</Text>
+        <View style={globalStyles.titlebar}>
+        <Text style={globalStyles.title}>Dein Stundenplan</Text>
         </View>
         <FlatList
           data={weekdays}
@@ -83,7 +87,7 @@ export default function StundenplanScreen ({navigaton}) {
 
         <Modal visible={modalOpen} animationType='slide'>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                  <View style={styles.modalContent}>
+                  <View style={globalStyles.modalContent}>
                     <AddLessonForm editLesson={editLesson} />
                     <Button
                       title="Cancel"
@@ -98,9 +102,6 @@ export default function StundenplanScreen ({navigaton}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   itemStyle: {
     backgroundColor: '#C65C5C',
     alignItems: 'center',
@@ -121,18 +122,4 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 1
   },
-  title: {
-    textAlign: 'center',
-    fontSize: 25,
-    color: '#14213D'
-  },
-  titlebar: {
-    backgroundColor: '#f2f2f2',
-    paddingVertical: 10,
-    shadowRadius: 5,
-    shadowColor: 'black',
-    shadowOpacity: 0.25,
-    elevation: 10,
-    shadowOffset: { width: 0, height: 3 },
-  }
 });

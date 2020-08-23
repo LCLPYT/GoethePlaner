@@ -13,12 +13,12 @@ import VertretungScreen from '../screens/VertretungScreen';
 import HausaufgabenScreen from '../screens/HausaufgabenScreen'
 
 var Images = [
-  require('../../src/images/list_black.png'),
-  require('../../src/images/list.png'),
+  require('../../src/images/vertretung_black.png'),
+  require('../../src/images/vertretung.png'),
+  require('../../src/images/HA_black.png'),
+  require('../../src/images/HA.png'),
   require('../../src/images/clock_black.png'),
   require('../../src/images/clock.png'),
-  require('../../src/images/list_black.png'),
-  require('../../src/images/list.png'),
 ];
 
 const Tab = createBottomTabNavigator();
