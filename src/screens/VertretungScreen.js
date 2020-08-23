@@ -2,8 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { globalStyles } from '../styles/global';
-import { fetch } from '../util/dsbfetcher';
-import { parse } from '../util/dsbparser';
+import { getLatestData } from '../util/dsbdata';
 
 export default class VertretungScreen extends React.Component{
     render(){
@@ -19,14 +18,8 @@ export default class VertretungScreen extends React.Component{
             <Text style={globalStyles.title}>Willkommen</Text>
           </View>
           <Button title="Test" onPress={event => {
-            fetch("311441", "endlichwieder", results => {
-              results.forEach(result => {
-                parse(result, parsed => {
-                  // Do something with it.
-                  console.log(parsed);
-                });
-              });
-            });
+            getLatestData("311441", "endlichwieder")
+              .then(contents => console.log(contents));
           }}></Button>
         </SafeAreaView>
       );
