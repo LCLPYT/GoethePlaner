@@ -22,7 +22,6 @@ import AddLessonForm from './AddLessonForm';
 
   }
 
-
   let init = true;
 
 export default function StundenplanScreen ({navigaton}) {
@@ -31,12 +30,12 @@ export default function StundenplanScreen ({navigaton}) {
 
   const weekdays = [{key: '1', day: "Mo"}, {key: '2', day: "Di"}, {key: '3', day: "Mi"}, {key: '4', day: "Do"}, {key: '5', day: "Fr"}]
 
-  const [datalist, setDatalist] = useState([{key: 1, lesson: "Ma", room: "K02", color: "#E0E0E0"},{key: 2, lesson: "En", room: "K02", color: "#E0E0E0"},{key: 3, lesson: "Pol", room: "K02", color: "#E0E0E0"},
-  {key: 4, lesson: "De", room: "K02", color: "#E0E0E0"},{key: 5, lesson: "Ch", room: "K02", color: "#E0E0E0"},{key: 6, lesson: "Ma", room: "K02", color: "#E0E0E0"},
-  {key: 7, lesson: "Ph", room: "K02", color: "#E0E0E0"},{key: 8, lesson: "Mu", room: "K02", color: "#E0E0E0"}])
+  const [datalist, setDatalist] = useState([{key: 1, lesson: "Ma", room: "K02", color: "#A8C686", doubleLesson: true},{key: 2, lesson: "En", room: "K02", color: "#14213D"},{key: 3, lesson: "Pol", room: "K02", color: "#669BBC"},
+  {key: 4, lesson: "De", room: "K02", color: "#E4572E"},{key: 5, lesson: "Ch", room: "K02", color: "#26413C"},{key: 6, lesson: "Ma", room: "K02", color: "#373F51"},
+  {key: 7, lesson: "", room: "K02", color: "#E0E0E0"},{key: 8, lesson: "", room: "K02", color: "#E0E0E0"},{key: 7, lesson: "", room: "K02", color: "#E0E0E0"},{key: 8, lesson: "", room: "K02", color: "#E0E0E0"}])
 
   useEffect(() => {
-      getData = async () =>{
+      async function getData() {
         if(init){
           console.log(init);
           init=false;
@@ -53,7 +52,7 @@ export default function StundenplanScreen ({navigaton}) {
           }
       }
     }
-      getData();
+    getData();
   });
 
 
@@ -61,12 +60,14 @@ export default function StundenplanScreen ({navigaton}) {
     edit.key = current_key;
     setDatalist((currentData) => {
       currentData[current_key-1] = edit
+      if(edit.doubleLesson){
+        currentData[current_key+4] = edit
+      }
       return currentData;
     });
     setModalOpen(false);
     await AsyncStorage.setItem(KEY,  JSON.stringify(datalist));
   };
-
 
   const _renderItem = ({item, index}) => {
 
@@ -77,27 +78,60 @@ export default function StundenplanScreen ({navigaton}) {
       setModalOpen(true)
     }
 
-    // itemstyle = function(color) {
-    //   return {
-    //     backgroundColor: color,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     height: 50,
-    //     flex: 1,
-    //     margin: 1
-    //   }
-    // }
+    function itemStyle(myColor) {
+      // let marginBottom = 1, paddingBottom = 1;
+      // if(item.length==2){
+      //   console.log(2)
+      //   marginBottom = 0;
+      //   paddingBottom = 1;
+      // }
+      return {
+        backgroundColor: myColor,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        flex: 1,
+        margin: 1,
+        // marginBottom: marginBottom,
+        // paddingBottom: paddingBottom
+      }
+    }
+
+    function textStyle(myColor){
+      let textcolor='#FFFFFF';
+      if(myColor=="#14213D"){
+        textcolor= '#FFFFFF';
+      }
+      return{
+        marginTop: 2,
+        color: textcolor,
+        fontSize: 18
+      }
+    }
+
+    function roomStyle(myColor){
+      let textcolor='#FFFFFF';
+      if(myColor=="#14213D"){
+        textcolor= '#FFFFFF';
+      }
+      return{
+        marginTop: 2,
+        color: textcolor,
+        fontSize: 8
+      }
+    }
 
     if(item.lesson != ""){
     return(
-        <TouchableOpacity style={styles.itemStyle} onPress={() => pressHandler(item.key)}>
-            <Text>{item.lesson}</Text>
+        <TouchableOpacity style={itemStyle(item.color)} onPress={() => pressHandler(item.key)}>
+            <Text style={textStyle(item.color)} >{item.lesson}</Text>
+            <Text style={roomStyle(item.color)} >{item.room}</Text>
         </TouchableOpacity>
     )
     }else{
       return(
-        <View style={styles.itemStyleEmpty}>
-        </View>
+        <TouchableOpacity style={styles.itemStyleEmpty} onPress={() => pressHandler(item.key)}>
+        </TouchableOpacity>
       )
     }
   }
@@ -153,6 +187,7 @@ const styles = StyleSheet.create({
     margin: 1
   },
   itemStyleEmpty: {
+    backgroundColor: '#E0E0E0',
     height: 50,
     flex: 1,
     margin: 1
