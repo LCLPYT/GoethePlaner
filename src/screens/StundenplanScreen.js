@@ -1,16 +1,16 @@
 import React ,{useState} from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, TouchableWithoutFeedback, Keyboard, Button } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, TouchableWithoutFeedback, Keyboard, Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { globalStyles } from '../styles/global';
+import { AsyncStorage } from '@react-native-community/async-storage'
 import AddLessonForm from './AddLessonForm';
-
 
   const Stack = createStackNavigator();
 
   let current_key = 0;
 
-
+  const KEY = 'STUNDENPLAN_DATA'
 
   _renderWeekdayItem = ({item, index}) => {
 
@@ -24,6 +24,8 @@ import AddLessonForm from './AddLessonForm';
 
 export default function StundenplanScreen ({navigaton}) {
 
+  
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const weekdays = [{key: '1', day: "Mo"}, {key: '2', day: "Di"}, {key: '3', day: "Mi"}, {key: '4', day: "Do"}, {key: '5', day: "Fr"}]
@@ -35,6 +37,10 @@ export default function StundenplanScreen ({navigaton}) {
   {key: 31, lesson: "Ph"},{key: 32, lesson: "Mu"},{key: 33, lesson: "Bio"},{key: 34, lesson: ""},  {key: 35, lesson: "Ph"},{key: 36, lesson: "Mu"},{key: 37, lesson: ""},{key: 38, lesson: "Inf"}, 
   {key: 39, lesson: ""},{key: 40, lesson: "Mu"}])
 
+  /*AsyncStorage.getItem(KEY).then(asyncStorageRes => {
+    console.log(JSON.parse(asyncStorageRes))
+    });*/
+
   const editLesson = (edit) => {
     edit.key = current_key;
     setDatalist((currentReviews) => {
@@ -42,6 +48,7 @@ export default function StundenplanScreen ({navigaton}) {
       return currentReviews;
     });
     setModalOpen(false);
+    AsyncStorage.setItem(KEY,  JSON.stringify(datalist));
   };
 
 
