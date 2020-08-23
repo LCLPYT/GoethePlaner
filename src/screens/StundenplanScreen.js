@@ -1,9 +1,9 @@
-import React ,{useState} from 'react';
+import React ,{useState, useEffect} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, TouchableWithoutFeedback, Keyboard, Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { globalStyles } from '../styles/global';
-import { AsyncStorage } from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 import AddLessonForm from './AddLessonForm';
 
   const Stack = createStackNavigator();
@@ -22,33 +22,49 @@ import AddLessonForm from './AddLessonForm';
 
   }
 
-export default function StundenplanScreen ({navigaton}) {
 
-  
+  let init = true;
+
+export default function StundenplanScreen ({navigaton}) {
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const weekdays = [{key: '1', day: "Mo"}, {key: '2', day: "Di"}, {key: '3', day: "Mi"}, {key: '4', day: "Do"}, {key: '5', day: "Fr"}]
 
-  const [datalist, setDatalist] = useState([{key: 1, lesson: "Ma", room: "K02"},{key: 2, lesson: "En"},{key: 3, lesson: "Pol"},{key: 4, lesson: "De"},{key: 5, lesson: "Ch"},{key: 6, lesson: "Ma"},
-  {key: 7, lesson: "Ph"},{key: 8, lesson: "Mu"},{key: 9, lesson: "Bio"},{key: 10, lesson: "Inf"},  {key: 11, lesson: "Ph"},{key: 12, lesson: "Mu"},{key: 13, lesson: "Bio"},{key: 14, lesson: "Inf"},  
-  {key: 15, lesson: "Ph"},{key: 16, lesson: "Mu"},{key: 17, lesson: "Bio"},{key: 18, lesson: "Inf"},  {key: 19, lesson: "Ph"},{key: 20, lesson: "Mu"},{key: 21, lesson: "Bio"},{key: 22, lesson: "Inf"},
-  {key: 23, lesson: "Ph"},{key: 24, lesson: "Mu"},{key: 25, lesson: "Bio"},{key: 26, lesson: "Inf"},  {key: 27, lesson: "Ph"},{key: 28, lesson: "Mu"},{key: 29, lesson: "Bio"},{key: 30, lesson: "Inf"},
-  {key: 31, lesson: "Ph"},{key: 32, lesson: "Mu"},{key: 33, lesson: "Bio"},{key: 34, lesson: ""},  {key: 35, lesson: "Ph"},{key: 36, lesson: "Mu"},{key: 37, lesson: ""},{key: 38, lesson: "Inf"}, 
-  {key: 39, lesson: ""},{key: 40, lesson: "Mu"}])
+  const [datalist, setDatalist] = useState([{key: 1, lesson: "Ma", room: "K02", color: "#E0E0E0"},{key: 2, lesson: "En", room: "K02", color: "#E0E0E0"},{key: 3, lesson: "Pol", room: "K02", color: "#E0E0E0"},
+  {key: 4, lesson: "De", room: "K02", color: "#E0E0E0"},{key: 5, lesson: "Ch", room: "K02", color: "#E0E0E0"},{key: 6, lesson: "Ma", room: "K02", color: "#E0E0E0"},
+  {key: 7, lesson: "Ph", room: "K02", color: "#E0E0E0"},{key: 8, lesson: "Mu", room: "K02", color: "#E0E0E0"}])
 
-  /*AsyncStorage.getItem(KEY).then(asyncStorageRes => {
-    console.log(JSON.parse(asyncStorageRes))
-    });*/
+  useEffect(() => {
+      getData = async () =>{
+        if(init){
+          console.log(init);
+          init=false;
+          try{
+            const value = await AsyncStorage.getItem(KEY)
+            if(value!==null){
+              console.log( JSON.parse(value));
+              setDatalist(() => {
+                return JSON.parse(value);
+              })
+            }
+          }catch(e){
 
-  const editLesson = (edit) => {
+          }
+      }
+    }
+      getData();
+  });
+
+
+  const editLesson = async (edit) => {
     edit.key = current_key;
-    setDatalist((currentReviews) => {
-      currentReviews[current_key-1] = edit
-      return currentReviews;
+    setDatalist((currentData) => {
+      currentData[current_key-1] = edit
+      return currentData;
     });
     setModalOpen(false);
-    AsyncStorage.setItem(KEY,  JSON.stringify(datalist));
+    await AsyncStorage.setItem(KEY,  JSON.stringify(datalist));
   };
 
 
@@ -60,6 +76,17 @@ export default function StundenplanScreen ({navigaton}) {
       current_key = key;
       setModalOpen(true)
     }
+
+    // itemstyle = function(color) {
+    //   return {
+    //     backgroundColor: color,
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     height: 50,
+    //     flex: 1,
+    //     margin: 1
+    //   }
+    // }
 
     if(item.lesson != ""){
     return(
@@ -107,6 +134,7 @@ export default function StundenplanScreen ({navigaton}) {
       </SafeAreaView>
     );
 }
+
 
 const styles = StyleSheet.create({
   itemStyle: {
