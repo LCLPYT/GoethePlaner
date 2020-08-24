@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
@@ -12,16 +11,18 @@ export default function FlatButton({ text, onPress }) {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 8,
-    paddingVertical: 14,
-    paddingHorizontal: 10,
-    backgroundColor: '#f01d71',
+    borderRadius: 15,
+    padding: 20,
+    margin: 10,
+    width: 350,
+    backgroundColor: '#b2b2b2',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-    textTransform: 'uppercase',
-    fontSize: 16,
+    fontSize: 20,
     textAlign: 'center',
   }
 })
