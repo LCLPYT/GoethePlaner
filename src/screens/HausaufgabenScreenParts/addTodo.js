@@ -6,42 +6,31 @@ import { Formik } from 'formik';
 import ColorPalette from 'react-native-color-palette'
 import FlatButton from '../../shared/button'
 
-export default function AddTodo({ submitHandler }) {
+export default function AddTodo({ submitHandler, pressHandler }) {
+  [text, setText] = useState('');
+
   const [selectedColor, setColor] = useState('#151E3F');
+  const changeHandler = (val) => {setText(val)};
+
   return (
     <SafeAreaView>
       <View>
-        <Formik
-          initialValues={{ lesson: '', room: '', color: '#44355B', doubleLesson: false }}
-          onSubmit={(values, actions) => {
-            actions.resetForm();
-            editLesson(values)
-          }}
-        >
+        <View>
+          <View style={globalStyles.titlebar}>
+            <Text style={globalStyles.title}>Hausaufgabe hinzufügen</Text>
+          </View>
+          <TextInput
+            style={styles.inputTOP}
+            placeholder='FACH'
+            onChangeText={changeHandler}
+          />
 
-          {props => (
-            <View>
-              <View style={globalStyles.titlebar}>
-                <Text style={globalStyles.title}>Hausaufgabe hinzufügen</Text>
-              </View>
-              <TextInput
-                style={styles.inputTOP}
-                placeholder='FACH'
-                onChangeText={props.handleChange('lesson')}
-                value={props.values.lesson}
-              />
-
-              <TextInput
-                style={styles.input}
-                placeholder='HAUSAUFGABE'
-                onChangeText={props.handleChange('room')}
-                multiline
-                value={props.values.room}
-              />
-              <FlatButton text="Hausaufgabe hinzufügen" onPress={props.handleSubmit}/>
-            </View>
-          )}
-        </Formik>
+          <TextInput
+            style={styles.input}
+            placeholder='HAUSAUFGABE'
+          />
+          <FlatButton text="Hausaufgabe hinzufügen" onPress={() => submitHandler(text)}/>
+        </View>
       </View>
     </SafeAreaView>
   )

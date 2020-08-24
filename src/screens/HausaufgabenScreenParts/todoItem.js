@@ -1,10 +1,12 @@
 import React from 'react'
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {StyleSheet, TouchableOpacity, Text, Image, View} from 'react-native';
 
-export default function TodoItem({ pressHandler, item }) {
+export default function TodoItem({ pressHandler, item, state }) {
   return (
-    <TouchableOpacity onPress={() => pressHandler(item.key)}>
-      <Text style={styles.item}>{item.text}</Text>
+    <TouchableOpacity style={styles.item} onPress={() => pressHandler(item.key)}>
+      <Image source={state} style={{ width: 25, height: 25 }}/>
+      <View style={{flex: 0.1}}/>
+      <Text style={styles.text}>{item.text}</Text>
     </TouchableOpacity>
   )
 }
@@ -20,5 +22,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 350,
     height: 55,
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  text: {
+    fontSize: 20,
   }
 });

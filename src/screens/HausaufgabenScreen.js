@@ -18,8 +18,30 @@ export default function HausaufgabenScreen() {
     setModalOpen(true)
   };
 
+  const delHandler = (key) => {
+    setTodos(prevTodos => {
+      return prevTodos.filter(todo => todo.key != key);
+    });
+  };
+
+  const pressHandler2 = (key) => {
+    setState('../../images/checkbox_checked.png')
+  };
+
   const [modalOpen, setModalOpen] = useState(false);
 
+  const submitHandler = (text) => {
+    setText('');
+    setTodos(prevTodos => {
+      return [
+        { text, key: Math.random().toString() },
+        ...prevTodos
+      ];
+    });
+    setModalOpen(false)
+  };
+
+  const [state, setState] = useState('../../images/checkbox.png')
 
   return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -28,21 +50,23 @@ export default function HausaufgabenScreen() {
           <View style={globalStyles.titlebar}>
             <Text style={globalStyles.title}>Deine Hausaufgaben</Text>
           </View>
+
           <View style={styles.content}>
-            <FlatButton text="Hausaufgabe hinzufügen" onPress={() => pressHandler()}/>
             <View style={styles.list}>
               <FlatList
                 data={todos}
                 renderItem={({ item }) => (
-                  <TodoItem item={item} pressHandler={pressHandler} />
+                  <TodoItem item={item} pressHandler={pressHandler2} state={state} />
                 )}
               />
             </View>
+            <FlatButton text="Hausaufgabe hinzufügen" stylez={globalStyles.button} onPress={() => pressHandler()}/>
           </View>
+
           <Modal visible={modalOpen} animationType='slide'>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={{alignContent: 'center', justifyContent: 'center'}}>
-                <AddTodo/>
+                <AddTodo submitHandler={submitHandler} pressHandler={pressHandler}/>
                 <FlatButton text='Cancel' onPress={() => setModalOpen(false)}/>
               </View>
             </TouchableWithoutFeedback>
@@ -59,16 +83,17 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 10,
-    marginTop: 50,
+    marginTop: 5,
   },
   list: {
-    marginTop: 20,
+    marginTop: 0,
   },
   button: {
     backgroundColor: '#ff3b30',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,
+    marginBottom: 10,
     width: 350,
     height: 55,
   }
