@@ -18,5 +18,7 @@ const styles = StyleSheet.create({
     borderStyle: "dashed",
     borderRadius: 1,
     borderRadius: 10,
+    width: 350,
+    height: 55,
   }
 });

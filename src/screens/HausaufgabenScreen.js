@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import TodoItem from './HausaufgabenScreenParts/todoItem';
 import AddTodo from './HausaufgabenScreenParts/addTodo';
 import { globalStyles } from '../styles/global';
-import Button from 'react-native-buttonex'
+import Button from 'react-native-buttonex';
+import { Modal } from 'react-native';
+import FlatButton from '../shared/button'
 
 export default function HausaufgabenScreen() {
   const [todos, setTodos] = useState([
@@ -12,27 +14,12 @@ export default function HausaufgabenScreen() {
     { text: 'play on the switch', key: '3' },
   ]);
 
-  const pressHandler = (key) => {
-    setTodos(prevTodos => {
-      return prevTodos.filter(todo => todo.key != key);
-    });
+  const pressHandler = () => {
+    setModalOpen(true)
   };
 
-  const submitHandler = (text) => {
-    if(text.length > 3){
-      setText('');
-      setTodos(prevTodos => {
-        return [
-          { text, key: Math.random().toString() },
-          ...prevTodos
-        ];
-      });
-    } else {
-      Alert.alert('Ups..', 'Deine HA muss länger als 3 Buchstaben sein', [
-        {text: 'OK', onPress: () => console.log('alert closed') }
-      ]);
-    }
-  };
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -42,7 +29,7 @@ export default function HausaufgabenScreen() {
             <Text style={globalStyles.title}>Deine Hausaufgaben</Text>
           </View>
           <View style={styles.content}>
-            <Button title="Hausaufgabe hinzufügen" bordered bold />
+            <FlatButton text="Hausaufgabe hinzufügen" onPress={() => pressHandler()}/>
             <View style={styles.list}>
               <FlatList
                 data={todos}
@@ -52,6 +39,14 @@ export default function HausaufgabenScreen() {
               />
             </View>
           </View>
+          <Modal visible={modalOpen} animationType='slide'>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View style={{alignContent: 'center', justifyContent: 'center'}}>
+                <AddTodo/>
+                <FlatButton text='Cancel' onPress={() => setModalOpen(false)}/>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
         </SafeAreaView>
       </TouchableWithoutFeedback>
   );
@@ -69,4 +64,12 @@ const styles = StyleSheet.create({
   list: {
     marginTop: 20,
   },
+  button: {
+    backgroundColor: '#ff3b30',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    width: 350,
+    height: 55,
+  }
 });
