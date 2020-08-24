@@ -1,27 +1,75 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, RefreshControl, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { globalStyles } from '../styles/global';
 import { getLatestData } from '../util/dsbdata';
 
-export default class VertretungScreen extends React.Component{
-    render(){
-      return (
-        <SafeAreaView style={globalStyles.container}>
-          <View style={globalStyles.titlebar}>
-          {/* <TouchableOpacity style={{flex: 1, padding: 50}}  onPress={() => navigation.openDrawer()}>
-            <Image source={require('../../src/images/clock.png')}
+const wait = (timeout) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
+
+/**
+ * @param {Date} date The date.
+ */
+function getDateString(date) {
+  let mappings = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
+  return `${mappings[date.getDay() - 1]}, ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+}
+
+export default function VertretungScreen() {
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [entries, setEntries] = React.useState([]);
+
+  const insertEntries = contents => {
+    setEntries(prev => {
+      let entries = [];
+      contents.forEach(content => {
+        entries.push({ key: Math.random().toString(), type: 'date', text: getDateString(content.date) });
+        entries.push({ key: Math.random().toString(), type: 'none', text: "Coming soon..." })
+      });
+      return entries;
+    });
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+
+    getLatestData("311441", "endlichwieder").then(results => {
+      setRefreshing(false);
+      insertEntries(results);
+    });
+  }, []);
+
+  return (
+    <SafeAreaView style={globalStyles.container}>
+        <View style={globalStyles.titlebar}>
+        {/* <TouchableOpacity style={{flex: 1, padding: 50}}  onPress={() => navigation.openDrawer()}>
+          <Image source={require('../../src/images/clock.png')}
             resizeMode='contain'
             style={{width: 30, height: 30}} />
-            </TouchableOpacity> */}
+        </TouchableOpacity> */}
+  
+        <Text style={globalStyles.title}>Willkommen</Text>
+      </View>
+      <Text>Pull to refresh...</Text>
+      <FlatList 
+        contentContainerStyle={styles.scrollView} 
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        data={entries}
+        renderItem={({ item }) => (
+          <Text>{item.text}</Text>
+        )} />
+    </SafeAreaView>
+  );
+}
 
-            <Text style={globalStyles.title}>Willkommen</Text>
-          </View>
-          <Button title="Test" onPress={event => {
-            getLatestData("311441", "endlichwieder")
-              .then(contents => console.log(contents));
-          }}></Button>
-        </SafeAreaView>
-      );
-    }
+const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+    alignItems: 'center'
   }
+});
