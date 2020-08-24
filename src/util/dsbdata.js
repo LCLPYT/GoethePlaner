@@ -18,7 +18,11 @@ function getLatestData(user, password) {
                         return;
                     }
                     contents.push(parsed);
-                    if(contents.length >= results.length) resolve(contents);
+                    if(contents.length >= results.length) {
+                        // TODO merge contents
+                        contents.sort((a, b) => a.date.getDate() - b.date.getDate()); // Sort by date
+                        resolve(contents);
+                    }
                 });
             });
         });

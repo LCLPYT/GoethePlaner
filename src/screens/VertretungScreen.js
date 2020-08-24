@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Button, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, RefreshControl, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { globalStyles } from '../styles/global';
 import { getLatestData } from '../util/dsbdata';
@@ -10,15 +10,35 @@ const wait = (timeout) => {
   });
 }
 
+/**
+ * @param {Date} date The date.
+ */
+function getDateString(date) {
+  let mappings = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
+  return `${mappings[date.getDay() - 1]}, ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+}
+
 export default function VertretungScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
+  const [entries, setEntries] = React.useState([]);
+
+  const insertEntries = contents => {
+    setEntries(prev => {
+      let entries = [];
+      contents.forEach(content => {
+        entries.push({ key: Math.random().toString(), type: 'date', text: getDateString(content.date) });
+        entries.push({ key: Math.random().toString(), type: 'none', text: "Coming soon..." })
+      });
+      return entries;
+    });
+  };
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
 
     getLatestData("311441", "endlichwieder").then(results => {
-      console.log(results);
       setRefreshing(false);
+      insertEntries(results);
     });
   }, []);
 
@@ -33,11 +53,16 @@ export default function VertretungScreen() {
   
         <Text style={globalStyles.title}>Willkommen</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollView} refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-        <Text>Pull down to refresh.</Text>
-      </ScrollView>
+      <Text>Pull to refresh...</Text>
+      <FlatList 
+        contentContainerStyle={styles.scrollView} 
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        data={entries}
+        renderItem={({ item }) => (
+          <Text>{item.text}</Text>
+        )} />
     </SafeAreaView>
   );
 }
@@ -45,7 +70,6 @@ export default function VertretungScreen() {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'center'
   }
 });
