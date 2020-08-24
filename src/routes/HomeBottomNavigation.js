@@ -51,7 +51,7 @@ export default HomeTab = () => {
       inactiveTintColor: 'gray',
     }}
     >
-      <Tab.Screen name="Vertretungen" component={VertretungScreen} options={{title: 'Vertretungen'}} />
+      <Tab.Screen name="Vertretungen" component={VertretungScreen} />
       <Tab.Screen name="Hausaufgaben" component={HausaufgabenScreen} />
       <Tab.Screen name="Stundenplan" component={StundenplanScreen} />
     </Tab.Navigator>
