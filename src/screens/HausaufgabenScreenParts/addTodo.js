@@ -5,6 +5,7 @@ import { globalStyles } from '../../styles/global';
 import { Formik } from 'formik';
 import ColorPalette from 'react-native-color-palette'
 import FlatButton from '../../shared/button'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function AddTodo({ submitHandler, pressHandler }) {
   [text, setText] = useState('');
@@ -12,7 +13,7 @@ export default function AddTodo({ submitHandler, pressHandler }) {
 
   const [selectedColor, setColor] = useState('#151E3F');
   const changeHandler = (val) => {setText(val)};
-  const changeHandler2 = (val) => {setFach(val)};
+
 
   return (
     <SafeAreaView>
@@ -21,16 +22,32 @@ export default function AddTodo({ submitHandler, pressHandler }) {
           <View style={globalStyles.titlebar}>
             <Text style={globalStyles.title}>Hausaufgabe hinzufügen</Text>
           </View>
-          <TextInput
-            style={styles.inputTOP}
-            placeholder='FACH'
-            onChangeText={changeHandler}
+          <View style={{height: 30}}/>
+          <DropDownPicker
+            items={[
+              { label: 'Mathe' }, { label: 'Deutsch' }, { label: 'Physik' }, { label: 'Biologie' }, { label: 'Chemie' },
+              { label: 'Geschichte' }, { label: 'Erdkunde' }, { label: 'Sport' }, { label: 'Philosophie' }, { label: 'Informatik'}
+            ]}
+            zIndex={500}
+            containerStyle={{ height: 40 }}
+            style={{ backgroundColor: '#fafafa', marginHorizontal: 10, height: 40 }}
+            dropDownMaxHeight={140}
+            placeholder={'Fach auswählen'}
+            itemStyle={{
+              justifyContent: 'flex-start'
+            }}
+            showArrow={false}
+            onChangeItem={(item) => setFach(item.label)}
+            searchable={true}
+            searchablePlaceholder="Suchen"
+            searchablePlaceholderTextColor="gray"
+            searchableError={() => <Text>Nicht gefunden</Text>}
           />
 
           <TextInput
             style={styles.input}
             placeholder='HAUSAUFGABE'
-            onChangeText={changeHandler2}
+            onChangeText={changeHandler}
           />
           <FlatButton text="Hausaufgabe hinzufügen" onPress={() => submitHandler(text, fach)}/>
         </View>

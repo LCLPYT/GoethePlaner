@@ -57,7 +57,7 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                 searchableError={() => <Text>Nicht gefunden</Text>}
               />
 
-<DropDownPicker
+              <DropDownPicker
                 items={[
                   { label: '031' }, { label: '032' }, { label: '033' },{ label: '131' }, { label: '132' }, { label: '133' },{ label: '231' }, { label: '232' }, { label: '233' }
                 ]}
