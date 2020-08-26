@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TextInput, View, Text, Switch, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Button, TextInput, View, Text, Switch, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
 import { Formik } from 'formik';
 import { SafeAreaView } from 'react-navigation';
 import { globalStyles } from '../styles/global';
@@ -43,19 +43,22 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                   { label: 'Mathe' }, { label: 'Deutsch' }, { label: 'Physik' }, { label: 'Biologie' }, { label: 'Chemie' }, { label: 'Geschichte' }, { label: 'Erdkunde' }, { label: 'Sport' }, { label: 'Englisch' }, { label: 'Französisch' }, { label: 'Philosophie' }, { label: 'Informatik' }, { label: 'Politik' },
                 ]}
                 zIndex={500}
-                containerStyle={{ height: 40 }}
-                style={{ backgroundColor: '#fafafa' }}
+                containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10  }}
+                showArrow={true}
+                customArrowUp={()=> <Image source={require('../../src/images/arrow_up.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
+                customArrowDown={()=> <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
+                style={{ backgroundColor: '#fafafa'}}
                 dropDownMaxHeight={200}
                 placeholder={'Fach auswählen'}
                 itemStyle={{
                   justifyContent: 'flex-start'
                 }}
-                showArrow={false}
                 onChangeItem={(item) => props.setFieldValue('lesson', item.label)}
                 searchable={true}
                 searchablePlaceholder="Suchen"
                 searchablePlaceholderTextColor="gray"
                 searchableError={() => <Text>Nicht gefunden</Text>}
+                zIndex={1000}
               />
 
               <DropDownPicker
@@ -65,14 +68,16 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                   { label: 'K02' }, { label: 'K02a' },
                 ]}
                 zIndex={500}
-                containerStyle={{ height: 40 }}
+                showArrow={true}
+                customArrowUp={()=> <Image source={require('../../src/images/arrow_up.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
+                customArrowDown={()=> <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
+                containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5  }}
                 style={{ backgroundColor: '#fafafa' }}
                 dropDownMaxHeight={200}
                 placeholder={'Raum auswählen'}
                 itemStyle={{
                   justifyContent: 'flex-start'
                 }}
-                showArrow={false}
                 onChangeItem={(item) => props.setFieldValue('room', item.label)}
                 searchable={true}
                 searchablePlaceholder="Suchen"
@@ -95,7 +100,7 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
 
               <Text style={{ fontSize: noLessonWarning, alignSelf: 'center' }}>Du hast kein Fach ausgewählt</Text>
 
-              <FlatButton text="Fertig" onPress={props.handleSubmit} style={{backgroundColor: '#90B494'}}/>
+              <FlatButton text="Fertig" onPress={props.handleSubmit} stylez={{backgroundColor: '#90B494'}}/>
             </View>
           )}
         </Formik>
