@@ -1,4 +1,6 @@
 const { parse: parseHtml } = require("node-html-parser");
+require("@zxing/text-encoding/cjs/encoding-indexes")
+require("@zxing/text-encoding");
 
 /**
  * Represents a plan change.
@@ -49,14 +51,31 @@ class Content {
 
 }
 
+function get(url) {
+    return new Promise((accept, reject) => {
+        var req = new XMLHttpRequest();
+        req.open("GET", url, true);
+        req.responseType = "arraybuffer";
+
+        req.onload = event => {
+            var resp = req.response;
+            if(resp) accept(resp);
+        };
+
+        req.send(null);
+    });
+}
+
 /**
  * Converts TimeTables to Content
  * @param {TimeTable} timetable 
  */
 function parse(timetable, callback) {
-    fetch(timetable.url)
-      .then(response => response.text())
-      .then(data => onRequestFinished(data, callback));
+    get(timetable.url).then(buffer => {
+        let decoder = new TextDecoder("iso-8859-1");
+        let text = decoder.decode(buffer);
+        onRequestFinished(text, callback);
+    });
 }
 
 function onRequestFinished(data, callback) {
@@ -72,8 +91,11 @@ function onRequestFinished(data, callback) {
     if(tableInfo.length > 0) {
         tableInfo.forEach(ti => {
             let trs = ti.querySelectorAll("tr");
-            for (let i = 1; i < trs.length; i++) 
-                news.push(trs[i].text.replace(/^\s+|\s+$/g, '')); // remove newlines before and after the text
+            for (let i = 1; i < trs.length; i++) {
+                let t = trs[i].text;
+                //t = unescape(encodeURIComponent(t));
+                news.push(t.replace(/^\s+|\s+$/g, '')); // remove newlines before and after the text
+            }
         });
     }
 
