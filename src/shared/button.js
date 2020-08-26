@@ -18,5 +18,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 })
-
-//currently inactive
