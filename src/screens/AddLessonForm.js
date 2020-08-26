@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-navigation';
 import { globalStyles } from '../styles/global';
 import ChangeColorForm from './changeColorForm';
 import DropDownPicker from 'react-native-dropdown-picker';
+import FlatButton from '../shared/button';
 
 export default function AddLessonForm({ editLesson, title, room, color, doubleLesson }) {
   const [noLessonWarning, setNoLessonWarning] = useState(0);
@@ -24,7 +25,7 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
               }
               actions.resetForm();
               editLesson(values);
-            }else{
+            } else {
               setNoLessonWarning(12);
             }
           }}
@@ -39,7 +40,7 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
 
               <DropDownPicker
                 items={[
-                  { label: 'Mathe' }, { label: 'Deutsch' }, { label: 'Physik' }, { label: 'Biologie' }, { label: 'Chemie' }, { label: 'Geschichte' }, { label: 'Erdkunde' }, { label: 'Sport' }, { label: 'Philosophie' },
+                  { label: 'Mathe' }, { label: 'Deutsch' }, { label: 'Physik' }, { label: 'Biologie' }, { label: 'Chemie' }, { label: 'Geschichte' }, { label: 'Erdkunde' }, { label: 'Sport' }, { label: 'Englisch' }, { label: 'Französisch' }, { label: 'Philosophie' }, { label: 'Informatik' }, { label: 'Politik' },
                 ]}
                 zIndex={500}
                 containerStyle={{ height: 40 }}
@@ -57,9 +58,11 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                 searchableError={() => <Text>Nicht gefunden</Text>}
               />
 
-<DropDownPicker
+              <DropDownPicker
                 items={[
-                  { label: '031' }, { label: '032' }, { label: '033' },{ label: '131' }, { label: '132' }, { label: '133' },{ label: '231' }, { label: '232' }, { label: '233' }
+                  { label: '031' }, { label: '032' }, { label: '033' }, { label: '051' }, { label: '052' }, { label: '053' }, { label: '054' }, { label: '131' }, { label: '132' }, { label: '133' }, { label: '151' }, { label: '152' }, { label: '153' },
+                  { label: '054' }, { label: '201' }, { label: '202' }, { label: '204' }, { label: '231' }, { label: '232' }, { label: '233' }, { label: '251' }, { label: '252' }, { label: '253' }, { label: '054' }, { label: '023' }, { label: 'K01' },
+                  { label: 'K02' }, { label: 'K02a' },
                 ]}
                 zIndex={500}
                 containerStyle={{ height: 40 }}
@@ -77,7 +80,7 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                 searchableError={() => <Text>Nicht gefunden</Text>}
               />
 
-              <ChangeColorForm changeColor={(c) => props.setFieldValue('color', c)} changeTextColor={(l) => (l>0.65) ? props.setFieldValue('darkText', true) : props.setFieldValue('darkText', false)}  init_color={props.values.color} />
+              <ChangeColorForm changeColor={(c) => props.setFieldValue('color', c)} changeTextColor={(l) => (l > 0.65) ? props.setFieldValue('darkText', true) : props.setFieldValue('darkText', false)} init_color={props.values.color} />
 
               <View style={styles.switchContainer}>
                 <Text style={styles.switchText}>Doppelstunde: </Text>
@@ -90,17 +93,9 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                 />
               </View>
 
-                <Text style={{fontSize: noLessonWarning, alignSelf: 'center'}}>Du hast kein fach ausgewählt</Text>
+              <Text style={{ fontSize: noLessonWarning, alignSelf: 'center' }}>Du hast kein Fach ausgewählt</Text>
 
-              <TouchableOpacity style={{ alignSelf: 'center', marginVertical: 5 }} onPress={props.handleSubmit}>
-                <View style={{
-                  backgroundColor: '#90B494', alignItems: 'center',
-                  justifyContent: 'center', borderRadius: 15, width: 300, height: 40
-                }}
-                >
-                  <Text style={{ color: 'white' }}>Fertig</Text>
-                </View>
-              </TouchableOpacity>
+              <FlatButton text="Fertig" onPress={props.handleSubmit} style={{backgroundColor: '#90B494'}}/>
             </View>
           )}
         </Formik>

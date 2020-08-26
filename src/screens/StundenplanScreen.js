@@ -192,15 +192,7 @@ export default function StundenplanScreen() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{alignContent: 'center', justifyContent: 'center'}}>
             <AddLessonForm editLesson={editLesson} title={datalist[current_key-1].lesson} room={datalist[current_key-1].room} color={datalist[current_key-1].color} doubleLesson={datalist[current_key-1].doubleLesson}/>
-            <TouchableOpacity style={{alignSelf: 'center', marginVertical: 5}} onPress={() => setModalOpen(false)}>
-              <View style={{
-                backgroundColor: '#BEBEBE', alignItems: 'center',
-                justifyContent: 'center', borderRadius: 15, width: 300, height: 40
-              }}
-              >
-                <Text style={{ color: 'white' }}>Abbrechen</Text>
-              </View>
-            </TouchableOpacity>
+            <FlatButton text="Abbrechen" onPress={() => setModalOpen(false)}/>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
