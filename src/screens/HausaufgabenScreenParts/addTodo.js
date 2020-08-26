@@ -5,43 +5,52 @@ import { globalStyles } from '../../styles/global';
 import { Formik } from 'formik';
 import ColorPalette from 'react-native-color-palette'
 import FlatButton from '../../shared/button'
+import DropDownPicker from 'react-native-dropdown-picker';
 
-export default function AddTodo({ submitHandler }) {
+export default function AddTodo({ submitHandler, pressHandler }) {
+  [text, setText] = useState('');
+  [fach, setFach] = useState('');
+
   const [selectedColor, setColor] = useState('#151E3F');
+  const changeHandler = (val) => {setText(val)};
+
+
   return (
     <SafeAreaView>
       <View>
-        <Formik
-          initialValues={{ lesson: '', room: '', color: '#44355B', doubleLesson: false }}
-          onSubmit={(values, actions) => {
-            actions.resetForm();
-            editLesson(values)
-          }}
-        >
+        <View>
+          <View style={globalStyles.titlebar}>
+            <Text style={globalStyles.title}>Hausaufgabe hinzufügen</Text>
+          </View>
+          <View style={{height: 30}}/>
+          <DropDownPicker
+            items={[
+              { label: 'Mathe' }, { label: 'Deutsch' }, { label: 'Physik' }, { label: 'Biologie' }, { label: 'Chemie' },
+              { label: 'Geschichte' }, { label: 'Erdkunde' }, { label: 'Sport' }, { label: 'Philosophie' }, { label: 'Informatik'}
+            ]}
+            zIndex={500}
+            containerStyle={{ height: 40 }}
+            style={{ backgroundColor: '#fafafa', marginHorizontal: 10, height: 40 }}
+            dropDownMaxHeight={140}
+            placeholder={'Fach auswählen'}
+            itemStyle={{
+              justifyContent: 'flex-start'
+            }}
+            showArrow={false}
+            onChangeItem={(item) => setFach(item.label)}
+            searchable={true}
+            searchablePlaceholder="Suchen"
+            searchablePlaceholderTextColor="gray"
+            searchableError={() => <Text>Nicht gefunden</Text>}
+          />
 
-          {props => (
-            <View>
-              <View style={globalStyles.titlebar}>
-                <Text style={globalStyles.title}>Hausaufgabe hinzufügen</Text>
-              </View>
-              <TextInput
-                style={styles.inputTOP}
-                placeholder='FACH'
-                onChangeText={props.handleChange('lesson')}
-                value={props.values.lesson}
-              />
-
-              <TextInput
-                style={styles.input}
-                placeholder='HAUSAUFGABE'
-                onChangeText={props.handleChange('room')}
-                multiline
-                value={props.values.room}
-              />
-              <FlatButton text="Hausaufgabe hinzufügen" onPress={props.handleSubmit}/>
-            </View>
-          )}
-        </Formik>
+          <TextInput
+            style={styles.input}
+            placeholder='HAUSAUFGABE'
+            onChangeText={changeHandler}
+          />
+          <FlatButton text="Hausaufgabe hinzufügen" onPress={() => submitHandler(text, fach)}/>
+        </View>
       </View>
     </SafeAreaView>
   )
