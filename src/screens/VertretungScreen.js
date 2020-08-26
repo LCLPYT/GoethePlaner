@@ -63,7 +63,6 @@ export default function VertretungScreen() {
 
 const styles = StyleSheet.create({
   scrollView: {
-    flex: 1,
     alignItems: 'center'
   }
 });
