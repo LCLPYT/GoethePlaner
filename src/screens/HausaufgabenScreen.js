@@ -9,9 +9,9 @@ import FlatButton from '../shared/button'
 
 export default function HausaufgabenScreen() {
   const [todos, setTodos] = useState([
-    { text: 'buy coffee', key: '1' },
-    { text: 'create an app', key: '2' },
-    { text: 'play on the switch', key: '3' },
+    { text: 'Seite 5', key: '1', fach: 'Mathe' },
+    { text: 'create an app', key: '2', fach: 'Mathe' },
+    { text: 'play on the switch', key: '3', fach: 'Mathe' },
   ]);
 
   const pressHandler = () => {
@@ -30,11 +30,11 @@ export default function HausaufgabenScreen() {
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const submitHandler = (text) => {
+  const submitHandler = (text, fach) => {
     setText('');
     setTodos(prevTodos => {
       return [
-        { text, key: Math.random().toString() },
+        { text, key: Math.random().toString(), fach },
         ...prevTodos
       ];
     });
@@ -56,7 +56,7 @@ export default function HausaufgabenScreen() {
               <FlatList
                 data={todos}
                 renderItem={({ item }) => (
-                  <TodoItem item={item} pressHandler={pressHandler2} state={state} />
+                  <TodoItem item={item} pressHandler={delHandler} state={state} />
                 )}
               />
             </View>

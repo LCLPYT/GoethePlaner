@@ -8,9 +8,11 @@ import FlatButton from '../../shared/button'
 
 export default function AddTodo({ submitHandler, pressHandler }) {
   [text, setText] = useState('');
+  [fach, setFach] = useState('');
 
   const [selectedColor, setColor] = useState('#151E3F');
   const changeHandler = (val) => {setText(val)};
+  const changeHandler2 = (val) => {setFach(val)};
 
   return (
     <SafeAreaView>
@@ -28,8 +30,9 @@ export default function AddTodo({ submitHandler, pressHandler }) {
           <TextInput
             style={styles.input}
             placeholder='HAUSAUFGABE'
+            onChangeText={changeHandler2}
           />
-          <FlatButton text="Hausaufgabe hinzufügen" onPress={() => submitHandler(text)}/>
+          <FlatButton text="Hausaufgabe hinzufügen" onPress={() => submitHandler(text, fach)}/>
         </View>
       </View>
     </SafeAreaView>

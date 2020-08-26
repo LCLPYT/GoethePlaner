@@ -4,9 +4,11 @@ import {StyleSheet, TouchableOpacity, Text, Image, View} from 'react-native';
 export default function TodoItem({ pressHandler, item, state }) {
   return (
     <TouchableOpacity style={styles.item} onPress={() => pressHandler(item.key)}>
-      <Image source={state} style={{ width: 25, height: 25 }}/>
+      <Image source={require('../../images/checkbox.png')} style={{ width: 25, height: 25, alignSelf: "center", }}/>
       <View style={{flex: 0.1}}/>
       <Text style={styles.text}>{item.text}</Text>
+      <View style={{flex: 0.9}}/>
+      <Text style={{fontSize: 15, alignSelf: "center",}}>{item.fach}</Text>
     </TouchableOpacity>
   )
 }
@@ -27,5 +29,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+    alignSelf: "center",
   }
 });
