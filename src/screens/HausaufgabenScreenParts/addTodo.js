@@ -20,7 +20,7 @@ export default function AddTodo({ submitHandler, pressHandler }) {
       <View>
         <View>
           <View style={globalStyles.titlebar}>
-            <Text style={globalStyles.title}>Hausaufgabe hinzufügen</Text>
+            <Text style={globalStyles.title}>Hausaufgabe</Text>
           </View>
           <View style={{height: 30}}/>
           <DropDownPicker
@@ -47,6 +47,7 @@ export default function AddTodo({ submitHandler, pressHandler }) {
           <TextInput
             style={styles.input}
             placeholder='HAUSAUFGABE'
+            multiline={true}
             onChangeText={changeHandler}
           />
           <FlatButton text="Hausaufgabe hinzufügen" onPress={() => submitHandler(text, fach)}/>

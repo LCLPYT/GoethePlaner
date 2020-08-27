@@ -1,15 +1,15 @@
 import React from 'react'
-import {StyleSheet, TouchableOpacity, Text, Image, View} from 'react-native';
+import {StyleSheet, Pressable, Text, Image, View} from 'react-native';
 
-export default function TodoItem({ pressHandler, item, state }) {
+export default function TodoItem({ pressHandler, item, state, pressHandler2 }) {
   return (
-    <TouchableOpacity style={styles.item} onPress={() => pressHandler(item.key)}>
+    <Pressable style={styles.item} onPress={() => pressHandler(item.key)} onLongPress={() => pressHandler2(item.key)}>
       <Image source={require('../../images/checkbox.png')} style={{ width: 25, height: 25, alignSelf: "center", }}/>
       <View style={{flex: 0.1}}/>
       <Text style={styles.text}>{item.text}</Text>
       <View style={{flex: 0.9}}/>
       <Text style={{fontSize: 15, alignSelf: "center",}}>{item.fach}</Text>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
