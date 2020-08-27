@@ -51,6 +51,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Wenn du ein Bild zu deiner Hausaufgabe hinzufügen willst, dann benötigen wir den Zugriff auf deine Fotos, diese werden aber natürlich für nicht anderes verwendet ;)</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
