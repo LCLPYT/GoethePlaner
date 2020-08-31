@@ -21,10 +21,10 @@ export default function VertretungScreen() {
       contents.forEach(content => {
         entries.push({ key: Math.random().toString(), type: 'date', date: content.date });
         entries.push({ key: Math.random().toString(), type: 'news', news: content.news });
-        //entries.push({ key: Math.random().toString(), type: 'none', text: "Coming soon..." })
         content.entries.forEach(entry => {
           entries.push({ key: Math.random().toString(), type: 'change', entry: entry });
         });
+        if(content.entries.length <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
       });
       return entries;
     });
