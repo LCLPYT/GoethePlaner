@@ -47,22 +47,36 @@ function getInfo(entry) {
 export default function ChangeEntry({ entry }) {
     return (
         <View style={[styles.container, {backgroundColor: getColorForChangeType(entry.type)}]}>
-            <Text style={[styles.item]}>{entry.classes}</Text>
-            <Text style={[styles.item]}>{entry.hour}</Text>
-            <Text style={[styles.item, { fontWeight: 'bold' }]}>{entry.type}</Text>
-            <Text style={[styles.item]}>{getInfo(entry)}</Text>
+            <Text style={[styles.classes]}>{entry.classes}</Text>
+            <Text style={[styles.hour]}>{entry.hour}</Text>
+            <View style={[styles.infoContainer]}>
+                <Text style={[{ fontWeight: 'bold' }]}>{entry.type}</Text>
+                <Text style={[]}>{getInfo(entry)}</Text>
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        padding: 16,
+        padding: 2,
         marginHorizontal: 16,
         marginTop: 8,
         borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    item: {
-        fontStyle: 'italic',
+    classes: {
+        width: 30,
+        marginLeft: 8
+    },
+    hour: {
+        width: 92,
+        fontSize: 40,
+        textAlign: 'center'
+    },
+    infoContainer: {
+        marginHorizontal: 10
     },
 });
