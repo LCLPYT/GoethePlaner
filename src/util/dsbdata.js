@@ -20,7 +20,7 @@ function getLatestData(user, password) {
                     contents.push(parsed);
                     if(contents.length >= results.length) {
                         // TODO merge contents
-                        contents.sort((a, b) => a.date.getDate() - b.date.getDate()); // Sort by date
+                        contents.sort((a, b) => b.date.getDate() - a.date.getDate()); // Sort by date
                         resolve(contents);
                     }
                 });

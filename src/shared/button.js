@@ -1,29 +1,20 @@
-
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import { globalStyles } from '../styles/global';
 
-export default function FlatButton({ text, onPress }) {
+export default function FlatButton({ text, onPress, stylez}) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity style={[globalStyles.button, stylez]} onPress={onPress}>
         <Text style={styles.buttonText}>{text}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    borderRadius: 8,
-    paddingVertical: 14,
-    paddingHorizontal: 10,
-    backgroundColor: '#f01d71',
-  },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-    textTransform: 'uppercase',
-    fontSize: 16,
+    fontSize: 20,
     textAlign: 'center',
   }
 })
-
-//currently inactive

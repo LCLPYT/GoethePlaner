@@ -18,14 +18,25 @@ export const globalStyles = StyleSheet.create({
         shadowOpacity: 0.25,
         elevation: 10,
         shadowOffset: { width: 0, height: 3 },
-  
+
         flexDirection: 'row', alignItems:'center'
-    },  
+    },
     input: {
         borderWidth: 1,
         borderColor: '#ddd',
         padding: 10,
         fontSize: 18,
         borderRadius: 6,
+  },
+  button: {
+    borderRadius: 15,
+    padding: 20,
+    margin: 10,
+    width: 300,
+    height: 60,
+    marginBottom:0,
+    backgroundColor: '#b2b2b2',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });
