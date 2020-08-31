@@ -4,13 +4,13 @@ import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
 export default function NewsEntry({ news }) {
     let newsComponents = [];
     for (let i = 0; i < news.length; i++) {
-      newsComponents.push(<Text key={Math.random().toString()}>{news[i]}</Text>);
+      newsComponents.push(<Text key={Math.random().toString()} style={styles.newsParagraph}>{news[i]}</Text>);
       if(i < news.length - 1) newsComponents.push(<View style={styles.hr} key={Math.random().toString()} />);
     }
     return (
-      <TouchableWithoutFeedback style={styles.touchable}>
+      <TouchableWithoutFeedback>
         <View style={styles.container}>
-          <Text style={styles.headline}>News</Text>
+          <Text style={[styles.headline, styles.newsParagraph]}>News</Text>
           <View style={styles.hr}/>
           {newsComponents}
         </View>
@@ -19,16 +19,14 @@ export default function NewsEntry({ news }) {
 }
 
 const styles = StyleSheet.create({
-  touchable: {
-
-  },
   container: {
     alignContent: "center",
-    padding: 10,
+    //paddingHorizontal: 10,
+    paddingVertical: 5,
     marginHorizontal: 20,
     borderColor: '#000',
-    borderWidth: 2,
-    borderRadius: 20
+    borderWidth: 1,
+    borderRadius: 4
   },
   headline: {
     fontWeight: 'bold',
@@ -37,5 +35,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     marginVertical: 5
+  },
+  newsParagraph: {
+    marginHorizontal: 10,
   },
 });
