@@ -25,6 +25,7 @@ export default function VertretungScreen() {
           entries.push({ key: Math.random().toString(), type: 'change', entry: entry });
         });
         if(content.entries.length <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
+        entries.push({ key: Math.random().toString(), type: 'margin' });
       });
       return entries;
     });
@@ -50,6 +51,10 @@ export default function VertretungScreen() {
   
         <Text style={globalStyles.title}>Willkommen</Text>
       </View>
+      <View style={styles.classWrapper}>
+        <Text style={styles.classText}>Klasse:</Text>
+        <Text style={[styles.classText, styles.classSelector]}>12</Text>
+      </View>
       <FlatList 
         contentContainerStyle={styles.scrollView} 
         refreshControl={
@@ -66,5 +71,23 @@ export default function VertretungScreen() {
 const styles = StyleSheet.create({
   scrollView: {
     alignItems: 'center'
-  }
+  },
+  classWrapper: {
+    padding: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  classText: {
+    fontSize: 18,
+  },
+  classSelector: {
+    backgroundColor: '#0f0',
+    padding: 5,
+    borderRadius: 5,
+    borderColor: '#090',
+    borderWidth: 2,
+    textAlign: "center",
+    paddingTop: 7
+  },
 });

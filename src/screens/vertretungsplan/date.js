@@ -17,7 +17,6 @@ export default function DateEntry({ date }) {
 
 const styles = StyleSheet.create({
   item: {
-    marginTop: 16,
     marginBottom: 5,
     fontWeight: "bold",
     fontSize: 18
