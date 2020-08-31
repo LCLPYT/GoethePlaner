@@ -26,19 +26,43 @@ function getColorForChangeType(type) {
     }
 }
 
+function getInfo(entry) {
+    if (entry.type === "Entfall") return entry.subject + " (" + entry.absent + ")";
+    else if (entry.type === "Vertr."
+            || entry.type === "S. Vertr."
+            || entry.type === "Mitbetr."
+            || entry.type === "Verlegung"
+            || entry.type === "EVA"
+            || entry.type === "Sondereins.")
+        return entry.subject + " (" + entry.replacement + " statt " + entry.absent + ") in " + entry.room;
+    else if (entry.type === "Raumänd."
+            || entry.type === "Unterricht geändert")
+        return entry.subject + " (" + entry.replacement + ") in " + entry.room;
+    else if (entry.type === "Veranst.") return entry.extra + " (" + entry.replacement + ")";
+    else if (entry.type === "findet statt") return entry.subject + " bei " + entry.replacement;
+    else
+        return entry.subject + " (" + entry.replacement + " statt " + entry.absent + ") in " + entry.room;
+}
+
 export default function ChangeEntry({ entry }) {
     return (
-        <TouchableWithoutFeedback onPress={() => console.log("pressed entry (coming soon)")}>
-            <Text style={[styles.item, { backgroundColor: getColorForChangeType(entry.type) }]}>{JSON.stringify(entry)}</Text>
-        </TouchableWithoutFeedback>
+        <View style={[styles.container, {backgroundColor: getColorForChangeType(entry.type)}]}>
+            <Text style={[styles.item]}>{entry.classes}</Text>
+            <Text style={[styles.item]}>{entry.hour}</Text>
+            <Text style={[styles.item, { fontWeight: 'bold' }]}>{entry.type}</Text>
+            <Text style={[styles.item]}>{getInfo(entry)}</Text>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    item: {
+    container: {
         padding: 16,
         marginHorizontal: 16,
         marginTop: 8,
         borderRadius: 10,
+    },
+    item: {
+        fontStyle: 'italic',
     },
 });

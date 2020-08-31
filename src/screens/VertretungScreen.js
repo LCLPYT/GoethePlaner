@@ -50,7 +50,6 @@ export default function VertretungScreen() {
   
         <Text style={globalStyles.title}>Willkommen</Text>
       </View>
-      <Text>Pull to refresh...</Text>
       <FlatList 
         contentContainerStyle={styles.scrollView} 
         refreshControl={
