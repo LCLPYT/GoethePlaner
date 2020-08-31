@@ -22,11 +22,13 @@ export default function VertretungScreen() {
       contents.forEach(content => {
         entries.push({ key: Math.random().toString(), type: 'date', date: content.date });
         entries.push({ key: Math.random().toString(), type: 'news', news: content.news });
+        let added = 0;
         content.entries.forEach(entry => {
           if(filter !== undefined && !entry.classes.includes(filter)) return;
+          added++;
           entries.push({ key: Math.random().toString(), type: 'change', entry: entry });
         });
-        if(content.entries.length <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
+        if(added <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
         entries.push({ key: Math.random().toString(), type: 'margin' });
       });
       return entries;
