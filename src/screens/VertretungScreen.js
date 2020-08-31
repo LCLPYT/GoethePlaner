@@ -21,7 +21,10 @@ export default function VertretungScreen() {
       contents.forEach(content => {
         entries.push({ key: Math.random().toString(), type: 'date', date: content.date });
         entries.push({ key: Math.random().toString(), type: 'news', news: content.news });
-        entries.push({ key: Math.random().toString(), type: 'none', text: "Coming soon..." })
+        //entries.push({ key: Math.random().toString(), type: 'none', text: "Coming soon..." })
+        content.entries.forEach(entry => {
+          entries.push({ key: Math.random().toString(), type: 'change', entry: entry });
+        });
       });
       return entries;
     });
@@ -47,7 +50,6 @@ export default function VertretungScreen() {
   
         <Text style={globalStyles.title}>Willkommen</Text>
       </View>
-      <Text>Pull to refresh...</Text>
       <FlatList 
         contentContainerStyle={styles.scrollView} 
         refreshControl={
