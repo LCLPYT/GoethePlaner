@@ -1,5 +1,4 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   Image,
@@ -8,7 +7,7 @@ import {
 
 } from 'react-native';
 
-import StundenplanScreen from '../screens/StundenplanScreen';
+import StundenplanStack from './StundenplanStack';
 import VertretungScreen from '../screens/VertretungScreen';
 import HausaufgabenScreen from '../screens/HausaufgabenScreen'
 
@@ -43,17 +42,19 @@ export default HomeTab = () => {
             source={Images[icon]}
             resizeMode='contain'
             style={{width: 25, height: 25}}
+            tintColor={color}
       />;
       },
     })}
     tabBarOptions={{
       activeTintColor: 'orange',
       inactiveTintColor: 'gray',
+      labelStyle: {marginBottom: 4}
     }}
     >
       <Tab.Screen name="Vertretungen" component={VertretungScreen} />
       <Tab.Screen name="Hausaufgaben" component={HausaufgabenScreen} />
-      <Tab.Screen name="Stundenplan" component={StundenplanScreen} />
+      <Tab.Screen name="Stundenplan" component={StundenplanStack} />
     </Tab.Navigator>
   );
 }

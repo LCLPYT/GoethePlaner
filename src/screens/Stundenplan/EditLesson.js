@@ -2,29 +2,74 @@ import React, { useState } from 'react';
 import { StyleSheet, Button, TextInput, View, Text, Switch, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard, Image } from 'react-native';
 import { Formik } from 'formik';
 import { SafeAreaView } from 'react-navigation';
-import { globalStyles } from '../styles/global';
-import ChangeColorForm from './changeColorForm';
+import { globalStyles } from '../../styles/global';
 import DropDownPicker from 'react-native-dropdown-picker';
-import FlatButton from '../shared/button';
+import FlatButton from '../../shared/button';
+import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage'
 
-export default function AddLessonForm({ editLesson, title, room, color, doubleLesson }) {
+import tinycolor from 'tinycolor2';
+import HueSlider from '../../color_menu/sliders/HueSlider.js';
+import SaturationSlider from '../../color_menu/sliders/SaturationSlider.js';
+import LightnessSlider from '../../color_menu/sliders/LightnessSlider.js';
+
+import { useNavigation } from '@react-navigation/native';
+
+
+export default function EditLesson({ route }) {
+
+  const navigation = useNavigation();
+
   const [noLessonWarning, setNoLessonWarning] = useState(0);
 
+  const { title, room,  doubleLesson, darkText, key } = route.params;
+
+
+  const KEY = 'COLOR_DATA';
+
+  const STORAGE_KEY_2 = 'STUNDENPLAN_DATA_EDIT';
+
+  var lessonToColor = [];
+
+  const [color, setColor] = useState("#000000");
+
+  async function getColorData(values) {
+    try {
+      const value = await AsyncStorage.getItem(KEY);
+      if (value !== null) {
+        lessonToColor = JSON.parse(value);
+        console.log(lessonToColor);
+        for (var i of lessonToColor) {
+          if (i.lesson == values.lesson) {
+            setColor(i.color); 
+            return i.color;
+          }
+        }
+      }
+    } catch (e) {}
+    return color;
+  }
+
+  async function submit(values){
+    values.bg_color = await getColorData(values);
+    if (values.doubleLesson == null) {
+      values.doubleLesson = false
+    }
+    colorl=tinycolor(values.bg_color).toHsl.l;
+    (colorl > 0.65) ? values.darkText = true : values.darkText = false;
+    values.key = key;
+    await AsyncStorage.setItem(STORAGE_KEY_2, JSON.stringify(values));
+    navigation.navigate('Stundenplan');
+  }
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={globalStyles.container}>
       <View>
         <Formik
-          initialValues={{ lesson: title, room: room, color: color, doubleLesson: doubleLesson, darkText: false }}
+          initialValues={{ lesson: title, room: room, bg_color: "#000000", doubleLesson: doubleLesson, darkText: false, key: key }}
           onSubmit={(values, actions) => {
             if (values.lesson != null) {
-              if (values.color == "" || values.color == null) {
-                values.color = '#FFA500';
-              }
-              if (values.doubleLesson == null) {
-                values.doubleLesson = false
-              }
-              actions.resetForm();
-              editLesson(values);
+              submit(values);
             } else {
               setNoLessonWarning(12);
             }
@@ -32,24 +77,19 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
         >
 
           {props => (
-            <View>
-              <View style={globalStyles.titlebar}>
-                <Text style={globalStyles.title}>Stunde bearbeiten</Text>
-              </View>
-
-
+            <View style={{ marginTop: 60 }}>
               <DropDownPicker
                 items={[
                   { label: 'Mathe' }, { label: 'Deutsch' }, { label: 'Physik' }, { label: 'Biologie' }, { label: 'Chemie' }, { label: 'Geschichte' }, { label: 'Erdkunde' }, { label: 'Sport' }, { label: 'Englisch' }, { label: 'Französisch' }, { label: 'Philosophie' }, { label: 'Informatik' }, { label: 'Politik' },
                 ]}
                 zIndex={500}
-                containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10  }}
+                containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10 }}
                 showArrow={true}
-                customArrowUp={()=> <Image source={require('../../src/images/arrow_up.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
-                customArrowDown={()=> <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
-                style={{ backgroundColor: '#fafafa'}}
+                customArrowUp={() => <Image source={require('../../../src/images/arrow_up.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
+                customArrowDown={() => <Image source={require('../../../src/images/arrow_down.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
+                style={{ backgroundColor: '#fafafa' }}
                 dropDownMaxHeight={200}
-                placeholder={'Fach auswählen'}
+                placeholder={title != null ? title : "Fach auswählen"}
                 itemStyle={{
                   justifyContent: 'flex-start'
                 }}
@@ -69,12 +109,12 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                 ]}
                 zIndex={500}
                 showArrow={true}
-                customArrowUp={()=> <Image source={require('../../src/images/arrow_up.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
-                customArrowDown={()=> <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
-                containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5  }}
+                customArrowUp={() => <Image source={require('../../../src/images/arrow_up.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
+                customArrowDown={() => <Image source={require('../../../src/images/arrow_down.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
+                containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5 }}
                 style={{ backgroundColor: '#fafafa' }}
                 dropDownMaxHeight={200}
-                placeholder={'Raum auswählen'}
+                placeholder={room != null ? room : "Raum auswählen"}
                 itemStyle={{
                   justifyContent: 'flex-start'
                 }}
@@ -85,7 +125,7 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                 searchableError={() => <Text>Nicht gefunden</Text>}
               />
 
-              <ChangeColorForm changeColor={(c) => props.setFieldValue('color', c)} changeTextColor={(l) => (l > 0.65) ? props.setFieldValue('darkText', true) : props.setFieldValue('darkText', false)} init_color={props.values.color} />
+
 
               <View style={styles.switchContainer}>
                 <Text style={styles.switchText}>Doppelstunde: </Text>
@@ -94,13 +134,12 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
                   value={props.values.doubleLesson}
                   onValueChange={value =>
                     props.setFieldValue('doubleLesson', value)
-                  }
-                />
+                  } />
               </View>
 
               <Text style={{ fontSize: noLessonWarning, alignSelf: 'center' }}>Du hast kein Fach ausgewählt</Text>
 
-              <FlatButton text="Fertig" onPress={props.handleSubmit} stylez={{backgroundColor: '#90B494'}}/>
+              <FlatButton text="Weiter" onPress={props.handleSubmit} stylez={{ backgroundColor: '#90B494', flex: 1 }} />
             </View>
           )}
         </Formik>
@@ -109,7 +148,6 @@ export default function AddLessonForm({ editLesson, title, room, color, doubleLe
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   input: {
@@ -123,21 +161,14 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    marginVertical: 8,
     margin: 10,
-    marginBottom: 20,
   },
   switchText: {
     fontSize: 12,
     alignSelf: 'center'
   },
-  switch: {
-  }
+  container: {
+    marginHorizontal: 10,
+  },
 });
-
-{/* <TextInput
-                maxLength={10}
-                style={styles.input}
-                placeholder='Fach'
-                onChangeText={props.handleChange('lesson')}
-                value={props.values.lesson}
-              /> */}

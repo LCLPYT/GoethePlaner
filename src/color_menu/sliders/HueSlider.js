@@ -10,7 +10,7 @@ const HueSlider = ({ style, value, onValueChange, gradientSteps }) => {
     <GradientSlider
       gradient={<HueGradient gradientSteps={gradientSteps} />}
       style={style}
-      step={1}
+      step={0.1}
       maximumValue={359}
       value={value}
       thumbTintColor={tinycolor({ s: 1, l: 0.5, h: value }).toHslString()}

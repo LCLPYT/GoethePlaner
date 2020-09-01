@@ -18,7 +18,7 @@ const SaturationSlider = ({
         <SaturationGradient color={color} gradientSteps={gradientSteps} />
       }
       style={style}
-      step={0.005}
+      step={0.01}
       maximumValue={1}
       value={value}
       thumbTintColor={tinycolor({ ...color, s: value }).toHslString()}
