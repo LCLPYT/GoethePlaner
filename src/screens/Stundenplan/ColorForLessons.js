@@ -14,8 +14,8 @@ export default function StundenplanScreen() {
 
     const KEY = 'COLOR_DATA';
 
-    const [datalist, setDatalist] = useState([{ lesson: 'Mathe', color: '#C65C5C' }, { lesson: 'Deutsch', color: '#C65C5C'  }, { lesson: 'Physik' }, 
-    { lesson: 'Biologie' }, { lesson: 'Chemie' }, { lesson: 'Geschichte' }, { lesson: 'Erdkunde' }, { lesson: 'Sport' }, { lesson: 'Englisch' }, 
+    const [datalist, setDatalist] = useState([{ lesson: 'Mathe', color: '#4c46e1'}, { lesson: 'Deutsch', color: '#ba3b3b'  }, { lesson: 'Physik', color: '#4fcaf8' }, 
+    { lesson: 'Biologie', color: '#5d9d4d' }, { lesson: 'Chemie', color: '#e89e11' }, { lesson: 'Geschichte', color: '#2e2e2e' }, { lesson: 'Erdkunde', color: '#471011' }, { lesson: 'Sport', color:'#4ac97b' }, { lesson: 'Englisch' }, 
     { lesson: 'Französisch' }, { lesson: 'Philosophie' }, { lesson: 'Informatik' }, { lesson: 'Politik' },]);
 
     useFocusEffect(

@@ -113,9 +113,9 @@ export default function ColorForm({ route }) {
           for (var j of datalist) {
             if (j.lesson == lesson) {
               j.bg_color = colorHex;
-              console.log(j.bg_color);
             }
           }
+          console.log(colorHex);
           await AsyncStorage.setItem(KEY, JSON.stringify(lessonToColor));
           await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(datalist));
           navigation.navigate('ColorForLessons');
