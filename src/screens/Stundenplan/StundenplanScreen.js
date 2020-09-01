@@ -109,16 +109,15 @@ export default function StundenplanScreen({ route }) {
     function itemStyle(item) {
       let margin = 0;
       if (item.key > 10 && item.key <= 15) {
-        margin = 2
+        margin = 2;
       } 
       else if (item.key > 20 && item.key <= 25) {
-        margin = 3
+        margin = 3;
       } else if (item.key > 25 && item.key <= 30) {
-        margin = 5
+        margin = 5;
       } else if (item.key > 30) {
-        margin = 2
+        margin = 2;
       }
-
       return {
         backgroundColor: item.bg_color,
         alignItems: 'center',
@@ -134,21 +133,23 @@ export default function StundenplanScreen({ route }) {
 
     function itemEmptyStyle() {
       let margin = 0;
-      if (item.key > 10 && item.key < 16) {
-        margin = 2
-      } else if (item.key > 20 && item.key < 26) {
-        margin = 3
-      } else if (item.key > 25 && item.key < 31) {
-        margin = 5
+      if (item.key > 10 && item.key <= 15) {
+        margin = 2;
+      } 
+      else if (item.key > 20 && item.key <= 25) {
+        margin = 3;
+      } else if (item.key > 25 && item.key <= 30) {
+        margin = 5;
       } else if (item.key > 30) {
-        margin = 2
+        margin = 2;
       }
       return {
         backgroundColor: '#E0E0E0',
         height: 45,
         flex: 1,
         marginHorizontal: 1,
-        marginTop: margin
+        marginTop: margin,
+        marginBottom: 0
       }
     }
 
@@ -224,24 +225,10 @@ export default function StundenplanScreen({ route }) {
 
 
 const styles = StyleSheet.create({
-  itemStyle: {
-    backgroundColor: '#C65C5C',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 45,
-    flex: 1,
-    margin: 1
-  },
   itemWeekdayStyle: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 20,
-    flex: 1,
-    margin: 1
-  },
-  itemStyleEmpty: {
-    backgroundColor: '#E0E0E0',
-    height: 45,
     flex: 1,
     margin: 1
   },

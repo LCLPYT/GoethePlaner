@@ -15,8 +15,8 @@ export default function StundenplanScreen() {
     const KEY = 'COLOR_DATA';
 
     const [datalist, setDatalist] = useState([{ lesson: 'Mathe', color: '#4c46e1'}, { lesson: 'Deutsch', color: '#ba3b3b'  }, { lesson: 'Physik', color: '#4fcaf8' }, 
-    { lesson: 'Biologie', color: '#5d9d4d' }, { lesson: 'Chemie', color: '#e89e11' }, { lesson: 'Geschichte', color: '#2e2e2e' }, { lesson: 'Erdkunde', color: '#471011' }, { lesson: 'Sport', color:'#4ac97b' }, { lesson: 'Englisch' }, 
-    { lesson: 'Französisch' }, { lesson: 'Philosophie' }, { lesson: 'Informatik' }, { lesson: 'Politik' },]);
+    { lesson: 'Biologie', color: '#5d9d4d' }, { lesson: 'Chemie', color: '#e89e11' }, { lesson: 'Geschichte', color: '#2e2e2e' }, { lesson: 'Erdkunde', color: '#471011' }, { lesson: 'Sport', color:'#4ac97b' }, 
+    { lesson: 'Englisch', color: '#177823' }, { lesson: 'Französisch', color: '#9c36fc' }, { lesson: 'Philosophie', color: '#dfbc4e' }, { lesson: 'Informatik', color: '#000000' }, { lesson: 'Politik',  color: '#c4c4c4'},]);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -56,6 +56,7 @@ export default function StundenplanScreen() {
     return (
         <SafeAreaView>
             <FlatList
+            style={{backgroundColor: '#ffffff'}}
                 data={datalist}
                 extraData={refresh}
                 renderItem={_renderItem}
@@ -69,13 +70,14 @@ export default function StundenplanScreen() {
 
 const styles = StyleSheet.create({
     itemStyle: {
-        backgroundColor: '#E0E0E0',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
         height: 55,
         flex: 1,
-        marginTop: 10
+        borderColor: '#E0E0E0',
+        borderWidth: 0.5,
+        paddingVertical: 30,
     },
     text: {
         fontSize: 14,

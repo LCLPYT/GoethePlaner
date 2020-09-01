@@ -33,6 +33,12 @@ export default function EditLesson({ route }) {
 
   const [color, setColor] = useState("#000000");
 
+  let showDoubleLesson = true;
+
+  if((key > 5 && key <= 10) || (key > 15 && key <= 25) ){
+    showDoubleLesson = false;
+  }
+
   async function getColorData(values) {
     try {
       const value = await AsyncStorage.getItem(KEY);
@@ -103,9 +109,11 @@ export default function EditLesson({ route }) {
 
               <DropDownPicker
                 items={[
-                  { label: '031' }, { label: '032' }, { label: '033' }, { label: '051' }, { label: '052' }, { label: '053' }, { label: '054' }, { label: '131' }, { label: '132' }, { label: '133' }, { label: '151' }, { label: '152' }, { label: '153' },
-                  { label: '054' }, { label: '201' }, { label: '202' }, { label: '204' }, { label: '231' }, { label: '232' }, { label: '233' }, { label: '251' }, { label: '252' }, { label: '253' }, { label: '054' }, { label: '023' }, { label: 'K01' },
-                  { label: 'K02' }, { label: 'K02a' },
+                  { label: '031' }, { label: '032' }, { label: '033' }, { label: '051' }, { label: '052' }, { label: '053' }, { label: '054' }, { label: '131' }, { label: '132' }, { label: '133' }, { label: '151' }, 
+                  { label: '152' }, { label: '153' },
+                  { label: '154' }, { label: '201' }, { label: '202' }, { label: '204' }, { label: '231' }, { label: '232' }, { label: '233' }, { label: '251' }, { label: '252' }, { label: '253' }, { label: '054' }, 
+                  { label: '023' }, { label: 'K01' },
+                  { label: 'K02' }, { label: 'K02a' },{ label: 'Lili' },
                 ]}
                 zIndex={500}
                 showArrow={true}
@@ -126,7 +134,7 @@ export default function EditLesson({ route }) {
               />
 
 
-
+{showDoubleLesson?
               <View style={styles.switchContainer}>
                 <Text style={styles.switchText}>Doppelstunde: </Text>
                 <Switch
@@ -135,7 +143,7 @@ export default function EditLesson({ route }) {
                   onValueChange={value =>
                     props.setFieldValue('doubleLesson', value)
                   } />
-              </View>
+              </View> : null }
 
               <Text style={{ fontSize: noLessonWarning, alignSelf: 'center' }}>Du hast kein Fach ausgewählt</Text>
 
