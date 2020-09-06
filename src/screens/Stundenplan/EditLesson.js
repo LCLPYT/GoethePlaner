@@ -22,7 +22,7 @@ export default function EditLesson({ route }) {
 
   const [noLessonWarning, setNoLessonWarning] = useState(0);
 
-  const { title, room,  doubleLesson, darkText, key } = route.params;
+  const { title, room, doubleLesson, darkText, key } = route.params;
 
 
   const KEY = 'COLOR_DATA';
@@ -35,7 +35,7 @@ export default function EditLesson({ route }) {
 
   let showDoubleLesson = true;
 
-  if((key > 5 && key <= 10) || (key > 15 && key <= 25) ){
+  if ((key > 5 && key <= 10) || (key > 15 && key <= 25)) {
     showDoubleLesson = false;
   }
 
@@ -47,21 +47,21 @@ export default function EditLesson({ route }) {
         console.log(lessonToColor);
         for (var i of lessonToColor) {
           if (i.lesson == values.lesson) {
-            setColor(i.color); 
+            setColor(i.color);
             return i.color;
           }
         }
       }
-    } catch (e) {}
+    } catch (e) { }
     return color;
   }
 
-  async function submit(values){
+  async function submit(values) {
     values.bg_color = await getColorData(values);
     if (values.doubleLesson == null) {
       values.doubleLesson = false
     }
-    colorl=tinycolor(values.bg_color).toHsl.l;
+    colorl = tinycolor(values.bg_color).toHsl.l;
     (colorl > 0.65) ? values.darkText = true : values.darkText = false;
     values.key = key;
     await AsyncStorage.setItem(STORAGE_KEY_2, JSON.stringify(values));
@@ -109,11 +109,11 @@ export default function EditLesson({ route }) {
 
               <DropDownPicker
                 items={[
-                  { label: '031' }, { label: '032' }, { label: '033' }, { label: '051' }, { label: '052' }, { label: '053' }, { label: '054' }, { label: '131' }, { label: '132' }, { label: '133' }, { label: '151' }, 
+                  { label: '031' }, { label: '032' }, { label: '033' }, { label: '051' }, { label: '052' }, { label: '053' }, { label: '054' }, { label: '131' }, { label: '132' }, { label: '133' }, { label: '151' },
                   { label: '152' }, { label: '153' },
-                  { label: '154' }, { label: '201' }, { label: '202' }, { label: '204' }, { label: '231' }, { label: '232' }, { label: '233' }, { label: '251' }, { label: '252' }, { label: '253' }, { label: '054' }, 
+                  { label: '154' }, { label: '201' }, { label: '202' }, { label: '204' }, { label: '231' }, { label: '232' }, { label: '233' }, { label: '251' }, { label: '252' }, { label: '253' }, { label: '054' },
                   { label: '023' }, { label: 'K01' },
-                  { label: 'K02' }, { label: 'K02a' },{ label: 'Lili' },
+                  { label: 'K02' }, { label: 'K02a' }, { label: 'Lili' },
                 ]}
                 zIndex={500}
                 showArrow={true}
@@ -134,20 +134,20 @@ export default function EditLesson({ route }) {
               />
 
 
-{showDoubleLesson?
-              <View style={styles.switchContainer}>
-                <Text style={styles.switchText}>Doppelstunde: </Text>
-                <Switch
-                  style={styles.switch}
-                  value={props.values.doubleLesson}
-                  onValueChange={value =>
-                    props.setFieldValue('doubleLesson', value)
-                  } />
-              </View> : null }
+              {showDoubleLesson ?
+                <View style={styles.switchContainer}>
+                  <Text style={styles.switchText}>Doppelstunde: </Text>
+                  <Switch
+                    style={styles.switch}
+                    value={props.values.doubleLesson}
+                    onValueChange={value =>
+                      props.setFieldValue('doubleLesson', value)
+                    } />
+                </View> : null}
 
               <Text style={{ fontSize: noLessonWarning, alignSelf: 'center' }}>Du hast kein Fach ausgewählt</Text>
 
-              <FlatButton text="Weiter" onPress={props.handleSubmit} stylez={{ backgroundColor: '#90B494', flex: 1 }} />
+              <FlatButton text="Fertig" onPress={props.handleSubmit} stylez={{ backgroundColor: '#90B494', flex: 1 }} />
             </View>
           )}
         </Formik>

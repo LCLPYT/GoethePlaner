@@ -40,7 +40,7 @@ export default function StundenplanScreen({ route }) {
     }, [])
   );
 
-  var val="";
+  var val = "";
 
   const editLesson = async () => {
     if (init) {
@@ -49,31 +49,41 @@ export default function StundenplanScreen({ route }) {
     } else {
       await getData();
       try {
-        if(val != await AsyncStorage.getItem(STORAGE_KEY_2)){
-        val = await AsyncStorage.getItem(STORAGE_KEY_2);
-        const edit = JSON.parse(val);
-        setDatalist((currentData) => {
-          currentData[edit.key - 1] = JSON.parse(JSON.stringify(edit));
+        if (val != await AsyncStorage.getItem(STORAGE_KEY_2) && await AsyncStorage.getItem(STORAGE_KEY_2) != null) {
+          val = await AsyncStorage.getItem(STORAGE_KEY_2);
+          const edit = JSON.parse(val);
+          setDatalist((currentData) => {
+            currentData[edit.key-1] = JSON.parse(JSON.stringify(edit));
 
-          if (!edit.doubleLesson && currentData[edit.key - 1].doubleLesson && currentData.length > edit.key + 4 && ((edit.key < 6) || (edit.key < 16 && edit.key > 10) || edit.key > 25)) {
             let edit2 = JSON.parse(JSON.stringify(edit));
-            edit2.lesson = null;
-            edit2.room = null;
-            currentData[edit.key + 4] = edit2;
-          }
-
-          if (edit.doubleLesson && currentData.length > edit.key + 4 && ((edit.key <= 5) || (edit.key <= 15 && edit.key > 10) || edit.key > 25)) {
-            let edit2 = JSON.parse(JSON.stringify(edit));
-            edit2.key = edit.key+4;
-            currentData[edit.key + 4] = edit2;
-          }
-          AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
-          getData();
-          return currentData;
-        });
-      }
+            if (edit.doubleLesson) {
+              if (edit.key + 4 < currentData.length) {
+                  edit2.key = edit.key + 5;
+                  edit2.doubleLesson = false;
+                  currentData[edit.key+4] = edit2;
+              }else {
+                currentData[edit.key-1].doubleLesson = false;
+              }
+            } else {
+              if (datalist[edit.key-6].doubleLesson) {
+                edit2 = datalist[edit.key - 6];
+                edit2.doubleLesson = false;
+                currentData[edit.key-6] = edit2;
+              }
+              if (datalist[edit.key-1].doubleLesson && datalist[edit.key+4].lesson == datalist[edit.key-1].lesson) {
+                console.log("case 4");
+                let edit3 = JSON.parse(JSON.stringify(edit));
+                edit3.lesson = null;
+                currentData[edit.key+4] = edit3;
+              }
+            }
+            AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+            getData();
+            return currentData;
+          });
+        }
       } catch (e) { }
-  }
+    }
   };
 
   async function getData() {
@@ -83,7 +93,6 @@ export default function StundenplanScreen({ route }) {
         setDatalist(() => {
           return JSON.parse(value);
         })
-        console.log(datalist);
         setRefresh(!refresh);
       }
     } catch (e) { }
@@ -109,13 +118,15 @@ export default function StundenplanScreen({ route }) {
     function itemStyle(item) {
       let margin = 0;
       if (item.key > 10 && item.key <= 15) {
-        margin = 2;
-      } 
-      else if (item.key > 20 && item.key <= 25) {
         margin = 3;
-      } else if (item.key > 25 && item.key <= 30) {
+      }
+      if (item.key > 20 && item.key <= 25) {
+        margin = 3;
+      }
+      if (item.key > 25 && item.key <= 30) {
         margin = 5;
-      } else if (item.key > 30) {
+      }
+      if (item.key > 30) {
         margin = 2;
       }
       return {
@@ -134,13 +145,15 @@ export default function StundenplanScreen({ route }) {
     function itemEmptyStyle() {
       let margin = 0;
       if (item.key > 10 && item.key <= 15) {
-        margin = 2;
-      } 
-      else if (item.key > 20 && item.key <= 25) {
         margin = 3;
-      } else if (item.key > 25 && item.key <= 30) {
+      }
+      if (item.key > 20 && item.key <= 25) {
+        margin = 3;
+      }
+      if (item.key > 25 && item.key <= 30) {
         margin = 5;
-      } else if (item.key > 30) {
+      }
+      if (item.key > 30) {
         margin = 2;
       }
       return {

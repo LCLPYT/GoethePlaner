@@ -33,6 +33,8 @@ export default function StundenplanScreen() {
                     return JSON.parse(value);
                 });
                 setRefresh(!refresh);
+            }else{
+                await AsyncStorage.setItem(KEY, JSON.stringify(datalist));
             }
         } catch (e) {}
     }
