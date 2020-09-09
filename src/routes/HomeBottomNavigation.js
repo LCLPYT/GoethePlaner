@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import StundenplanStack from './StundenplanStack';
-import VertretungScreen from '../screens/VertretungScreen';
+import VertretungScreen from './VertretungsStack';
 import HausaufgabenScreen from '../screens/HausaufgabenScreen'
 
 var Images = [

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, RefreshControl, FlatList, TouchableHighlight, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { globalStyles } from '../styles/global';
 import { getLatestData } from '../util/dsbdata';
 import Entry from './vertretungsplan/entry';
 import DropDownPicker from 'react-native-dropdown-picker';
+import AsyncStorage from '@react-native-community/async-storage'
 
 const wait = (timeout) => {
   return new Promise(resolve => {
@@ -24,16 +25,31 @@ export default function VertretungScreen() {
         entries.push({ key: Math.random().toString(), type: 'news', news: content.news });
         let added = 0;
         content.entries.forEach(entry => {
-          if(filter !== undefined && !entry.classes.includes(filter)) return;
+          if (filter !== undefined && !entry.classes.includes(filter)) return;
           added++;
           entries.push({ key: Math.random().toString(), type: 'change', entry: entry });
         });
-        if(added <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
+        if (added <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
         entries.push({ key: Math.random().toString(), type: 'margin' });
       });
       return entries;
     });
   };
+
+  async function load(){
+    try {
+      const value = await AsyncStorage.getItem('class');
+      console.log("v"+value);
+      if (value !== null) {
+        onRefresh(value);
+      }
+    } catch (e) { }
+  }
+
+  useEffect(()=>{
+    load();
+  },[]);
+
 
   const onRefresh = React.useCallback((label) => {
     setRefreshing(true);
@@ -45,6 +61,7 @@ export default function VertretungScreen() {
   }, []);
 
   const onChangeClass = (item) => {
+    AsyncStorage.setItem('class', item.label);
     onRefresh(item.label);
   };
 
@@ -57,15 +74,6 @@ export default function VertretungScreen() {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-        <View style={globalStyles.titlebar}>
-        {/* <TouchableOpacity style={{flex: 1, padding: 50}}  onPress={() => navigation.openDrawer()}>
-          <Image source={require('../../src/images/clock.png')}
-            resizeMode='contain'
-            style={{width: 30, height: 30}} />
-        </TouchableOpacity> */}
-  
-        <Text style={globalStyles.title}>Willkommen</Text>
-      </View>
       {/*<View style={styles.classWrapper}>
         <Text style={styles.classText}>Klasse:</Text>
         <TouchableHighlight style={[styles.classSelector]} onPress={onChangeClass}>
@@ -73,33 +81,33 @@ export default function VertretungScreen() {
         </TouchableHighlight>
       </View>*/}
       <DropDownPicker
-          items={classes}
-          zIndex={500}
-          containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10  }}
-          showArrow={true}
-          customArrowUp={()=> <Image source={require('../../src/images/arrow_up.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
-          customArrowDown={()=> <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{width: 30, height: 30}} />}
-          style={{ backgroundColor: '#fafafa'}}
-          dropDownMaxHeight={200}
-          placeholder={'Klasse auswählen'}
-          itemStyle={{
-            justifyContent: 'flex-start'
-          }}
-          onChangeItem={(item) => onChangeClass(item)}
-          searchable={true}
-          searchablePlaceholder="Suchen"
-          searchablePlaceholderTextColor="gray"
-          searchableError={() => <Text>Nicht gefunden</Text>}
-          zIndex={1000}
+        items={classes}
+        zIndex={500}
+        containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10 }}
+        showArrow={true}
+        customArrowUp={() => <Image source={require('../../src/images/arrow_up.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
+        customArrowDown={() => <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
+        style={{ backgroundColor: '#fafafa' }}
+        dropDownMaxHeight={200}
+        placeholder={'Klasse auswählen'}
+        itemStyle={{
+          justifyContent: 'flex-start'
+        }}
+        onChangeItem={(item) => onChangeClass(item)}
+        searchable={true}
+        searchablePlaceholder="Suchen"
+        searchablePlaceholderTextColor="gray"
+        searchableError={() => <Text>Nicht gefunden</Text>}
+        zIndex={1000}
       />
-      <FlatList 
-        contentContainerStyle={styles.scrollView} 
+      <FlatList
+        contentContainerStyle={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         data={entries}
         renderItem={({ item }) => (
-          <Entry item={item} pressHandler={id => {}} />
+          <Entry item={item} pressHandler={id => { }} />
         )} />
     </SafeAreaView>
   );

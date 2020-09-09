@@ -13,11 +13,15 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator
+        drawerStyle={{
+          paddingTop: 20
+        }}
+        initialRouteName="Home">
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Klausuren" component={Klausuren} />
         <Drawer.Screen name="Einstellungen" component={Settings} />
-        <Drawer.Screen name="About" component={About} />
+        {/* <Drawer.Screen name="About" component={About} /> */}
       </Drawer.Navigator>
     </NavigationContainer>
   );

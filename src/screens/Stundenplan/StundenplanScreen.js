@@ -32,8 +32,6 @@ export default function StundenplanScreen({ route }) {
 
   const navigation = useNavigation();
 
-  const { changedColors } = route.params;
-
   useFocusEffect(
     React.useCallback(() => {
       editLesson()
@@ -172,7 +170,7 @@ export default function StundenplanScreen({ route }) {
         textColor = '#252526';
       }
       let size = 15;
-      if (item.lesson.length > 6) {
+      if (item.lesson.length > 7) {
         size = 13
       }
       return {

@@ -44,7 +44,6 @@ export default function EditLesson({ route }) {
       const value = await AsyncStorage.getItem(KEY);
       if (value !== null) {
         lessonToColor = JSON.parse(value);
-        console.log(lessonToColor);
         for (var i of lessonToColor) {
           if (i.lesson == values.lesson) {
             setColor(i.color);
