@@ -2,21 +2,48 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { globalStyles } from '../styles/global';
 import DropDownPicker from 'react-native-dropdown-picker';
+import AsyncStorage from '@react-native-community/async-storage'
 
 export default function SettingsScreen() {
 
   const classes = [];
   [7, 8, 9, 10].forEach(x => {
-    ['a', 'b', 'c', 'd', 'e'].forEach(y => classes.push({ label: `${x}${y}` }));
+    ['a', 'b', 'c', 'd', 'e'].forEach(y => classes.push({ label: `${x}${y}`, value: `${x}${y}`}));
   });
-  classes.push({ label: '11' });
-  classes.push({ label: '12' });
+  classes.push({ label: '11', value: '11' });
+  classes.push({ label: '12', value: '12' });
+
+  async function getData(hours) {
+    let hoursPerWeek = 5*parseInt(hours);
+    try {
+      let value = [{key: 1}];
+      value = JSON.parse(await AsyncStorage.getItem("STUNDENPLAN_DATA"));
+      if (value !== null) {
+        if (hoursPerWeek > value.length) {
+          for (let i = value.length+1; i <= hoursPerWeek; i++) {
+            value.push({ key: i });
+          }
+        } else {
+          for (let i = value.length; i > hoursPerWeek; i--) {
+            value.pop();
+          }
+        }
+        console.log(value);
+        await AsyncStorage.setItem("STUNDENPLAN_DATA", JSON.stringify(value));
+      }
+    } catch (e) {console.log(e) }
+  }
+
+  const onChangeClass = (item) => {
+    AsyncStorage.setItem('class', item.label);
+  };
 
   return (
     <View style={globalStyles.container}>
       <Text style={styles.text}>Klasse:</Text>
       <DropDownPicker
         items={classes}
+        // defaultValue={async() => JSON.parse(await AsyncStorage.getItem('class'))}
         zIndex={500}
         containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10 }}
         showArrow={true}
@@ -38,7 +65,7 @@ export default function SettingsScreen() {
       <Text style={styles.text}>Stundenanzahl:</Text>
       <DropDownPicker
         items={[
-          { label: '8' }, { label: '9' }, { label: '10' }, { label: '11' },
+          { label: '8', value: '8' }, { label: '9', value: '9' }, { label: '10', value: '10' }, { label: '11', value: '11' },
         ]}
         zIndex={500}
         containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10 }}
@@ -47,11 +74,11 @@ export default function SettingsScreen() {
         customArrowDown={() => <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
         style={{ backgroundColor: '#fafafa' }}
         dropDownMaxHeight={200}
-        placeholder={"8"}
+        placeholder={"Wähle deine späteste Stunde aus"}
         itemStyle={{
           justifyContent: 'flex-start'
         }}
-        onChangeItem={(item) => props.setFieldValue('lesson', item.label)}
+        onChangeItem={(item) => getData(item.label)}
         searchable={true}
         searchablePlaceholder="Suchen"
         searchablePlaceholderTextColor="gray"

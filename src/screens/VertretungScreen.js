@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, RefreshControl, FlatList, TouchableHighlight, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useFocusEffect } from '@react-navigation/native';
 import { globalStyles } from '../styles/global';
 import { getLatestData } from '../util/dsbdata';
 import Entry from './vertretungsplan/entry';
@@ -49,6 +49,11 @@ export default function VertretungScreen() {
     load();
   },[]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      load();
+    }, [])
+  );
 
   const onRefresh = React.useCallback((label) => {
     setRefreshing(true);
@@ -58,11 +63,6 @@ export default function VertretungScreen() {
       insertEntries(results, label);
     });
   }, []);
-
-  const onChangeClass = (item) => {
-    AsyncStorage.setItem('class', item.label);
-    onRefresh(item.label);
-  };
 
   const classes = [];
   [7, 8, 9, 10].forEach(x => {
@@ -79,26 +79,6 @@ export default function VertretungScreen() {
             <Text style={styles.classText}>12</Text>
         </TouchableHighlight>
       </View>*/}
-      <DropDownPicker
-        items={classes}
-        zIndex={500}
-        containerStyle={{ height: 40, marginHorizontal: 10, marginVertical: 5, marginTop: 10 }}
-        showArrow={true}
-        customArrowUp={() => <Image source={require('../../src/images/arrow_up.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
-        customArrowDown={() => <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
-        style={{ backgroundColor: '#fafafa' }}
-        dropDownMaxHeight={200}
-        placeholder={'Klasse auswählen'}
-        itemStyle={{
-          justifyContent: 'flex-start'
-        }}
-        onChangeItem={(item) => onChangeClass(item)}
-        searchable={true}
-        searchablePlaceholder="Suchen"
-        searchablePlaceholderTextColor="gray"
-        searchableError={() => <Text>Nicht gefunden</Text>}
-        zIndex={1000}
-      />
       <FlatList
         contentContainerStyle={styles.scrollView}
         refreshControl={

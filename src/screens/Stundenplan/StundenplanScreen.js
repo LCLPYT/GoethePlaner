@@ -234,6 +234,7 @@ export default function StundenplanScreen({ route }) {
         keyExtractor={(item, index) => index.toString()}
         numColumns={5} />
       <FlatList
+      style={{marginBottom: 20}}
         data={datalist}
         extraData={refresh}
         renderItem={_renderItem}

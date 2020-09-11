@@ -10,6 +10,7 @@ const Stack = createStackNavigator();
 
 export default HomeTab = () => {
   const navigation = useNavigation();
+  
   return (
     <Stack.Navigator initialRouteName="Vertretungsplan">
       <Stack.Screen name="Vertretungsplan" component={Vertretungsplan} options={{
