@@ -4,13 +4,21 @@ import Stundenplan from '../screens/Stundenplan/StundenplanScreen';
 import AddLessonForm from '../screens/Stundenplan/EditLesson';
 import ColorForm from '../screens/Stundenplan/ColorForm';
 import ColorForLessons from '../screens/Stundenplan/ColorForLessons';
-import { Button, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { Button, Image, TouchableOpacity, Pressable, PermissionsAndroid } from 'react-native';
+import { useNavigation, StackActions  } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage'
 
 const Stack = createStackNavigator();
 
+
 export default HomeTab = () => {
   const navigation = useNavigation();
+
+  var press= async ()=>{
+    await AsyncStorage.setItem("STUNDENPLAN_DATA_EDIT", "del");
+    navigation.dispatch(StackActions.popToTop());
+  }
+
   return (
     <Stack.Navigator initialRouteName="Stundenplan">
       <Stack.Screen name="Stundenplan" component={Stundenplan} options={{
@@ -31,7 +39,7 @@ export default HomeTab = () => {
         headerRight: () => {
           return <TouchableOpacity
             onPress={() => {
-              //navigation.navigate('Stundenplan');
+              press();
             }}
           >
             <Image source={require('../images/delete.png')} style={{height: 29}} resizeMode='contain' />

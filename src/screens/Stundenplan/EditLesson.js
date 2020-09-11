@@ -9,9 +9,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage'
 
 import tinycolor from 'tinycolor2';
-import HueSlider from '../../color_menu/sliders/HueSlider.js';
-import SaturationSlider from '../../color_menu/sliders/SaturationSlider.js';
-import LightnessSlider from '../../color_menu/sliders/LightnessSlider.js';
 
 import { useNavigation } from '@react-navigation/native';
 

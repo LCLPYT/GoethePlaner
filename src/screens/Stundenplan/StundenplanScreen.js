@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, TouchableWithoutFeedback, Keyboard, Button } from 'react-native';
-import { NavigationContainer, useLinkProps, useFocusEffect } from '@react-navigation/native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, Keyboard, Button, Pressable, Image } from 'react-native';
+import { NavigationContainer,useFocusEffect } from '@react-navigation/native';
 import { globalStyles } from '../../styles/global';
 import AsyncStorage from '@react-native-community/async-storage'
 import FlatButton from '../../shared/button';
-import { set } from 'react-native-reanimated';
 
 import { useNavigation } from '@react-navigation/native';
 
 const STORAGE_KEY = 'STUNDENPLAN_DATA'
 
 const STORAGE_KEY_2 = 'STUNDENPLAN_DATA_EDIT'
+
+var currentkey = 1;
 
 export default function StundenplanScreen({ route }) {
 
@@ -49,36 +50,53 @@ export default function StundenplanScreen({ route }) {
       try {
         if (val != await AsyncStorage.getItem(STORAGE_KEY_2) && await AsyncStorage.getItem(STORAGE_KEY_2) != null) {
           val = await AsyncStorage.getItem(STORAGE_KEY_2);
-          const edit = JSON.parse(val);
-          setDatalist((currentData) => {
-            currentData[edit.key-1] = JSON.parse(JSON.stringify(edit));
 
-            let edit2 = JSON.parse(JSON.stringify(edit));
-            if (edit.doubleLesson) {
-              if (edit.key + 4 < currentData.length) {
+          if (val!="del") {
+            const edit = JSON.parse(val);
+            setDatalist((currentData) => {
+              let edit2 = JSON.parse(JSON.stringify(edit));
+              if (edit.doubleLesson) {
+                if (edit.key + 4 < currentData.length) {
                   edit2.key = edit.key + 5;
                   edit2.doubleLesson = false;
-                  currentData[edit.key+4] = edit2;
-              }else {
-                currentData[edit.key-1].doubleLesson = false;
+                  currentData[edit.key + 4] = edit2;
+                } else {
+                  currentData[edit.key - 1].doubleLesson = false;
+                }
+              } else {
+                if (datalist[edit.key - 6].doubleLesson) {
+                  edit2 = datalist[edit.key - 6];
+                  edit2.doubleLesson = false;
+                  currentData[edit.key - 6] = edit2;
+                }
+                if (currentData[edit.key - 1].doubleLesson && datalist[edit.key + 4].lesson == datalist[edit.key - 1].lesson) {
+                  const edit3 = {key: edit.key+5};
+                  currentData[edit.key + 4] = edit3;
+                }
               }
-            } else {
-              if (datalist[edit.key-6].doubleLesson) {
+              currentData[edit.key - 1] = JSON.parse(JSON.stringify(edit));
+
+              AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+              getData();
+              return currentData;
+            });
+          } else {
+            setDatalist((currentData) => {
+              const edit = {key: currentkey};
+              currentData[currentkey - 1] = edit;
+
+              if (datalist[edit.key - 6].doubleLesson) {
                 edit2 = datalist[edit.key - 6];
                 edit2.doubleLesson = false;
-                currentData[edit.key-6] = edit2;
+                currentData[edit.key - 6] = edit2;
               }
-              if (datalist[edit.key-1].doubleLesson && datalist[edit.key+4].lesson == datalist[edit.key-1].lesson) {
-                console.log("case 4");
-                let edit3 = JSON.parse(JSON.stringify(edit));
-                edit3.lesson = null;
-                currentData[edit.key+4] = edit3;
-              }
-            }
-            AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
-            getData();
-            return currentData;
-          });
+
+              AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+              getData();
+              return currentData;
+            });
+            await AsyncStorage.setItem("STUNDENPLAN_DATA_EDIT", "");
+          }
         }
       } catch (e) { }
     }
@@ -108,6 +126,7 @@ export default function StundenplanScreen({ route }) {
   const _renderItem = ({ item, index }) => {
 
     const pressHandler = (key) => {
+      currentkey = key;
       navigation.navigate('EditLesson', {
         title: datalist[key - 1].lesson, room: datalist[key - 1].room, doubleLesson: datalist[key - 1].doubleLesson, darkText: datalist[key - 1].darkText, key: key
       });
@@ -221,19 +240,9 @@ export default function StundenplanScreen({ route }) {
         keyExtractor={(item, index) => index.toString()}
         numColumns={5}
       />
-
-      {/* <Modal visible={modalOpen} animationType='slide' onRequestClose={() => {setModalOpen(false);}}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{alignContent: 'center', justifyContent: 'center'}}>
-            <AddLessonForm editLesson={editLesson} title={datalist[current_key-1].lesson} room={datalist[current_key-1].room} bg_color={datalist[current_key-1].bg_color} doubleLesson={datalist[current_key-1].doubleLesson}/>
-            <FlatButton text="Abbrechen" stylez={{flex: 1 }} onPress={() => setModalOpen(false)}/>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal> */}
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   itemWeekdayStyle: {

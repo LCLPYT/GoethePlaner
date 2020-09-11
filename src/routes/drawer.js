@@ -4,9 +4,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Home from './HomeBottomNavigation';
-import Klausuren from '../screens/KlausurenScreen';
-import Settings from '../screens/SettingsScreen';
-import About from '../screens/AboutScreen';
+import Klausuren from './KlausurenStack';
+import Settings from './SettingsStack';
 
 const Drawer = createDrawerNavigator();
 

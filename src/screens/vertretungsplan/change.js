@@ -61,8 +61,8 @@ export default function ChangeEntry({ entry }) {
 
 const styles = StyleSheet.create({
     container: {
+        width: '89%',
         marginHorizontal: 16,
-        width: 320,
         marginTop: 8,
         borderRadius: 10,
         flexDirection: 'row',

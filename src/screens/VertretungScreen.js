@@ -39,7 +39,6 @@ export default function VertretungScreen() {
   async function load(){
     try {
       const value = await AsyncStorage.getItem('class');
-      console.log("v"+value);
       if (value !== null) {
         onRefresh(value);
       }

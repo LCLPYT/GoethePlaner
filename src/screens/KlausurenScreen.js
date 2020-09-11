@@ -7,9 +7,6 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={globalStyles.container}>
-        <View style={globalStyles.titlebar}>
-          <Text style={globalStyles.title}>Klausuren</Text>
-          <View style={styles.container}>
 {/* 
             <Pdf
               source={{uri:'http://www.goethe-gymnasium-lichterfelde.de/files/klausurplan_q2_neu_23.4.2020.pdf', cache: true}}
@@ -26,9 +23,6 @@ export default class SettingsScreen extends React.Component {
                 console.log(`Link presse: ${uri}`)
             }}
               style={styles.pdf} /> */}
-          </View>
-
-        </View>
       </View>
     );
   }
