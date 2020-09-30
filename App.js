@@ -36,6 +36,7 @@ export default class App extends React.Component {
       { lesson: 'Englisch', color: '#177823' }, { lesson: 'Französisch', color: '#9c36fc' }, { lesson: 'Philosophie', color: '#dfbc4e' }, { lesson: 'Informatik', color: '#000000' }, { lesson: 'Politik', color: '#c4c4c4' },];
       await AsyncStorage.setItem('COLOR_DATA', JSON.stringify(lessonToColor));
       await AsyncStorage.setItem('first_start', "false");
+      await AsyncStorage.setItem('class', "12");
       return <SplashScreen />;
     }
   }

@@ -74,8 +74,7 @@ export default function EditLesson({ route }) {
       case 0: day = "Freitag"; break;
     }
 
-    console.log(key);
-    //Good coding rigth here...
+    //Good coding right here...
     if (key <= 5) hour = " 1. Stunde";
     if (key <= 10 && key > 5) hour = " 2. Stunde";
     if (key <= 15 && key > 10) hour = " 3. Stunde";
