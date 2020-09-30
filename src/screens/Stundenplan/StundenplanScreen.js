@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Modal, Keyboard, Button, Pressable, Image } from 'react-native';
-import { NavigationContainer,useFocusEffect } from '@react-navigation/native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Keyboard, Button, Pressable, Image } from 'react-native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { globalStyles } from '../../styles/global';
 import AsyncStorage from '@react-native-community/async-storage'
 import FlatButton from '../../shared/button';
+import Modal from 'react-native-modal';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,6 +21,8 @@ export default function StundenplanScreen({ route }) {
   let init = true;
 
   const [refresh, setRefresh] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [datalist, setDatalist] = React.useState([
     { key: 1 }, { key: 2 }, { key: 3 }, { key: 4 }, { key: 5 },
@@ -51,7 +54,7 @@ export default function StundenplanScreen({ route }) {
         if (val != await AsyncStorage.getItem(STORAGE_KEY_2) && await AsyncStorage.getItem(STORAGE_KEY_2) != null) {
           val = await AsyncStorage.getItem(STORAGE_KEY_2);
 
-          if (val!="del") {
+          if (val != "del") {
             const edit = JSON.parse(val);
             setDatalist((currentData) => {
               let edit2 = JSON.parse(JSON.stringify(edit));
@@ -70,7 +73,7 @@ export default function StundenplanScreen({ route }) {
                   currentData[edit.key - 6] = edit2;
                 }
                 if (currentData[edit.key - 1].doubleLesson && datalist[edit.key + 4].lesson == datalist[edit.key - 1].lesson) {
-                  const edit3 = {key: edit.key+5};
+                  const edit3 = { key: edit.key + 5 };
                   currentData[edit.key + 4] = edit3;
                 }
               }
@@ -82,7 +85,7 @@ export default function StundenplanScreen({ route }) {
             });
           } else {
             setDatalist((currentData) => {
-              const edit = {key: currentkey};
+              const edit = { key: currentkey };
               currentData[currentkey - 1] = edit;
 
               if (datalist[edit.key - 6].doubleLesson) {
@@ -104,7 +107,7 @@ export default function StundenplanScreen({ route }) {
 
   async function getData() {
     try {
-      const value = await AsyncStorage.getItem(STORAGE_KEY)
+      const value = await AsyncStorage.getItem(STORAGE_KEY);
       if (value !== null) {
         setDatalist(() => {
           return JSON.parse(value);
@@ -127,10 +130,9 @@ export default function StundenplanScreen({ route }) {
 
     const pressHandler = (key) => {
       currentkey = key;
-      navigation.navigate('EditLesson', {
-        title: datalist[key - 1].lesson, room: datalist[key - 1].room, doubleLesson: datalist[key - 1].doubleLesson, darkText: datalist[key - 1].darkText, key: key
-      });
+      setModalOpen(true);
     }
+
 
     function itemStyle(item) {
       let margin = 0;
@@ -154,8 +156,7 @@ export default function StundenplanScreen({ route }) {
         flex: 1,
         marginHorizontal: 1,
         marginTop: margin,
-        marginBottom: 0
-
+        marginBottom: 0,
       }
     }
 
@@ -234,13 +235,40 @@ export default function StundenplanScreen({ route }) {
         keyExtractor={(item, index) => index.toString()}
         numColumns={5} />
       <FlatList
-      style={{marginBottom: 20}}
+        style={{ marginBottom: 20 }}
         data={datalist}
         extraData={refresh}
         renderItem={_renderItem}
         keyExtractor={(item, index) => index.toString()}
         numColumns={5}
       />
+      <Modal coverScreen={false} animationType={'fade'} transparent={true} isVisible={modalOpen} backdropOpacity={0} onRequestClose={() => setModalOpen(false)}>
+        <Pressable onPress={() => setModalOpen(false)} style={styles.modalOutside}>
+          <View style={[styles.modalEdit, { borderColor: (datalist[currentkey - 1].lesson != null) ? datalist[currentkey - 1].bg_color : "#000000" }]}>
+            <TouchableOpacity style={[styles.modalImage, { borderTopColor: datalist[currentkey - 1].bg_color }]}
+              onPress={() => {
+                setModalOpen(false);
+              }}
+            >
+              <Image source={require('../../images/close.png')} style={{ height: 29 }} resizeMode='contain' />
+            </TouchableOpacity>
+            <View style={styles.modalText}>
+              <Text style={{ marginTop: 10, fontSize: 18 }}>{/*(currentkey)/5 -0.2*(currentkey%5)}.*/}{(datalist[currentkey - 1].lesson != null) ? datalist[currentkey - 1].lesson : "Kein Fach"}</Text>
+              <Text style={{ marginBottom: 10, fontSize: 16 }}>{(datalist[currentkey - 1].room != null) ? datalist[currentkey - 1].room : "Kein Raum"}</Text>
+            </View>
+            <TouchableOpacity style={styles.modalImage}
+              onPress={() => {
+                setModalOpen(false);
+                navigation.navigate('EditLesson', {
+                  title: datalist[currentkey - 1].lesson, room: datalist[currentkey - 1].room, doubleLesson: datalist[currentkey - 1].doubleLesson, darkText: datalist[currentkey - 1].darkText, key: currentkey
+                });
+              }}
+            >
+              <Image source={require('../../images/edit.png')} style={{ height: 29 }} resizeMode='contain' />
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -253,4 +281,33 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 1
   },
+  modalImage: {
+    flex: 1,
+    margin: 10,
+    marginEnd: 20,
+    alignSelf: 'center',
+    marginLeft: 0,
+  },
+  modalText: {
+    flex: 2,
+    margin: 5,
+    alignSelf: 'center',
+  },
+  modalOutside: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  modalEdit: {
+    alignSelf: 'center',
+    opacity: 1,
+    height: '20%',
+    width: '75%',
+    marginTop: '57%',
+    backgroundColor: '#ffffff',
+    flexDirection: 'row',
+    borderTopWidth: 7,
+    borderRadius: 4
+  }
 });

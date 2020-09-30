@@ -64,9 +64,36 @@ export default function EditLesson({ route }) {
     navigation.navigate('Stundenplan');
   }
 
+  function text() {
+    let day, hour;
+    switch (key % 5) {
+      case 1: day = "Montag"; break;
+      case 2: day = "Dienstag"; break;
+      case 3: day = "Mittwoch"; break;
+      case 4: day = "Donnerstag"; break;
+      case 0: day = "Freitag"; break;
+    }
+
+    console.log(key);
+    //Good coding rigth here...
+    if (key <= 5) hour = " 1. Stunde";
+    if (key <= 10 && key > 5) hour = " 2. Stunde";
+    if (key <= 15 && key > 10) hour = " 3. Stunde";
+    if (key <= 20 && key > 15) hour = " 4. Stunde";
+    if (key <= 25 && key > 20) hour = " 5. Stunde";
+    if (key <= 30 && key > 25) hour = " 6. Stunde";
+    if (key <= 35 && key > 30) hour = " 7. Stunde";
+    if (key <= 40 && key > 35) hour = " 8. Stunde";
+    if (key <= 45 && key > 40) hour = " 9. Stunde";
+    if (key <= 50 && key > 45) hour = " 10. Stunde";
+    if (key <= 55 && key > 50) hour = " 11. Stunde";
+    return day + hour
+  }
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <View>
+        <Text style={styles.title}>{text()}</Text>
         <Formik
           initialValues={{ lesson: title, room: room, bg_color: "#000000", doubleLesson: doubleLesson, darkText: false, key: key }}
           onSubmit={(values, actions) => {
@@ -79,7 +106,7 @@ export default function EditLesson({ route }) {
         >
 
           {props => (
-            <View style={{ marginTop: 60 }}>
+            <View>
               <DropDownPicker
                 items={[
                   { label: 'Mathe' }, { label: 'Deutsch' }, { label: 'Physik' }, { label: 'Biologie' }, { label: 'Chemie' }, { label: 'Geschichte' }, { label: 'Erdkunde' }, { label: 'Sport' }, { label: 'Englisch' }, { label: 'Französisch' }, { label: 'Philosophie' }, { label: 'Informatik' }, { label: 'Politik' },
@@ -175,4 +202,10 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 10,
   },
+  title: {
+    fontSize: 24,
+    alignSelf: 'center',
+    margin: 20,
+    fontWeight: 'bold'
+  }
 });
