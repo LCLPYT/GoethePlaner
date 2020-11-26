@@ -21,6 +21,7 @@ export default function VertretungScreen() {
   const insertEntries = (contents, filter) => {
     setEntries(prev => {
       let entries = [];
+      entries.push({ key: Math.random().toString(), type: 'margin' });
       contents.forEach(content => {
         entries.push({ key: Math.random().toString(), type: 'date', date: content.date });
         entries.push({ key: Math.random().toString(), type: 'news', news: content.news });

@@ -9,7 +9,7 @@ import {
 
 import StundenplanStack from './StundenplanStack';
 import VertretungScreen from './VertretungsStack';
-import HausaufgabenScreen from '../screens/HausaufgabenScreen'
+import HausaufgabenScreen from './HausaufgabenStack'
 
 var Images = [
   require('../../src/images/vertretung_black.png'),

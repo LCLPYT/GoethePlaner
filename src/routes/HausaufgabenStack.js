@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Vertretungsplan from '../screens/VertretungScreen';
+import HausaufgabenScreen from '../screens/HausaufgabenScreen';
 import { Button, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,9 +10,9 @@ export default HomeTab = () => {
   const navigation = useNavigation();
   
   return (
-    <Stack.Navigator initialRouteName="Vertretungsplan">
-      <Stack.Screen name="Vertretungsplan" component={Vertretungsplan} options={{
-        headerTitle: "Vertretungsplan",
+    <Stack.Navigator initialRouteName="Hausaufgaben">
+      <Stack.Screen name="Hausaufgaben" component={HausaufgabenScreen} options={{
+        headerTitle: "Hausaufgaben",
         headerLeft: () => {
           return <TouchableOpacity
             onPress={() => {

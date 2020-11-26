@@ -51,7 +51,7 @@ export default function SettingsScreen() {
         customArrowDown={() => <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
         style={{ backgroundColor: '#fafafa' }}
         dropDownMaxHeight={200}
-        placeholder={'Klasse auswählen'}
+        placeholder={'Klasse ändern'}
         itemStyle={{
           justifyContent: 'flex-start'
         }}
@@ -74,7 +74,7 @@ export default function SettingsScreen() {
         customArrowDown={() => <Image source={require('../../src/images/arrow_down.png')} resizeMode='contain' style={{ width: 30, height: 30 }} />}
         style={{ backgroundColor: '#fafafa' }}
         dropDownMaxHeight={200}
-        placeholder={"Wähle deine späteste Stunde aus"}
+        placeholder={"Späteste Stunde ändern"}
         itemStyle={{
           justifyContent: 'flex-start'
         }}
@@ -93,5 +93,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     margin: 4,
+    textAlign: "center",
+    marginTop: 18,
   },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { StyleSheet, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import TodoItem from './HausaufgabenScreenParts/todoItem';
 import AddTodo from './HausaufgabenScreenParts/addTodo';
@@ -6,11 +6,19 @@ import { globalStyles } from '../styles/global';
 import Button from 'react-native-buttonex';
 import { Modal } from 'react-native';
 import FlatButton from '../shared/button'
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function HausaufgabenScreen() {
   const [todos, setTodos] = useState([
-    { text: 'Erstelle eine Hausaufgabe', key: '1', fach: 'Beispiel' },
   ]);
+
+  async function load(){
+    setTodos(JSON.parse(await AsyncStorage.getItem("homework")));
+    console.log(JSON.parse(await AsyncStorage.getItem("homework")));
+  }
+  useEffect(()=>{
+    load();
+  },[]);
 
   const pressHandler = () => {
     setModalOpen(true)
@@ -18,6 +26,7 @@ export default function HausaufgabenScreen() {
 
   const delHandler = (key) => {
     setTodos(prevTodos => {
+      AsyncStorage.setItem("homework", JSON.stringify(prevTodos.filter(todo => todo.key != key)));
       return prevTodos.filter(todo => todo.key != key);
     });
   };
@@ -30,24 +39,24 @@ export default function HausaufgabenScreen() {
 
   const submitHandler = (text, fach) => {
     setText('');
+    setModalOpen(false);
+    AsyncStorage.setItem("homework", JSON.stringify([
+      { text, key: Math.random().toString(), fach },
+      ...todos
+    ]));
     setTodos(prevTodos => {
       return [
         { text, key: Math.random().toString(), fach },
         ...prevTodos
       ];
     });
-    setModalOpen(false)
   };
 
-  const [state, setState] = useState('../../images/checkbox.png')
+  const [state, setState] = useState('../../images/checkbox.png');
 
   return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <SafeAreaView style={styles.container}>
-
-          <View style={globalStyles.titlebar}>
-            <Text style={globalStyles.title}>Deine Hausaufgaben</Text>
-          </View>
 
           <View style={styles.content}>
             <View style={styles.list}>
@@ -58,14 +67,14 @@ export default function HausaufgabenScreen() {
                 )}
               />
             </View>
-            <FlatButton text="Hausaufgabe hinzufügen" stylez={globalStyles.button} onPress={() => pressHandler()}/>
+            <FlatButton text="Hausaufgabe hinzufügen" style={[globalStyles.button, {backgroundColor: '#000000'}]}  onPress={() => pressHandler()}/>
           </View>
 
           <Modal visible={modalOpen} animationType='slide'>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={{alignContent: 'center', justifyContent: 'center'}}>
                 <AddTodo submitHandler={submitHandler} pressHandler={pressHandler}/>
-                <FlatButton text='Cancel' onPress={() => setModalOpen(false)}/>
+                <FlatButton style={[globalStyles.button, {backgroundColor: '#666666'}]} text='Cancel' onPress={() => setModalOpen(false)}/>
               </View>
             </TouchableWithoutFeedback>
           </Modal>
@@ -92,7 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 15,
     marginBottom: 10,
-    width: 350,
-    height: 55,
+    width: 250,
+    height: 45,
   }
 });
