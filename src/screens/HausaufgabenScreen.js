@@ -14,7 +14,6 @@ export default function HausaufgabenScreen() {
 
   async function load(){
     setTodos(JSON.parse(await AsyncStorage.getItem("homework")));
-    console.log(JSON.parse(await AsyncStorage.getItem("homework")));
   }
   useEffect(()=>{
     load();
