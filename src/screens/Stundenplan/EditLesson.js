@@ -30,11 +30,16 @@ export default function EditLesson({ route }) {
 
   const [color, setColor] = useState("#000000");
 
-  let showDoubleLesson = true;
+  const [showDoubleLesson, setDoubleLesson] = useState(false);
 
-  if ((key > 5 && key <= 10) || (key > 15 && key <= 25)) {
-    showDoubleLesson = false;
+  async function checkdoubleLesson(){
+    const hours = JSON.parse(await AsyncStorage.getItem("STUNDENPLAN_DATA"));
+    if (!((key > 5 && key <= 10) || (key > 15 && key <= 25) || hours.length - key < 5)) {
+      setDoubleLesson(true);
+    }
   }
+  checkdoubleLesson();
+
 
   async function getColorData(values) {
     try {

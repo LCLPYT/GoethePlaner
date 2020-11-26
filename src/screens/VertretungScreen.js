@@ -17,6 +17,7 @@ export default function VertretungScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
   const [entries, setEntries] = React.useState([]);
 
+
   const insertEntries = (contents, filter) => {
     setEntries(prev => {
       let entries = [];
@@ -40,7 +41,12 @@ export default function VertretungScreen() {
     try {
       const value = await AsyncStorage.getItem('class');
       if (value !== null) {
-        onRefresh(value);
+        setRefreshing(true);
+
+        getLatestData("311441", "endlichwieder").then(results => {
+          setRefreshing(false);
+          insertEntries(results, value);
+        });
       }
     } catch (e) { }
   }
@@ -55,13 +61,8 @@ export default function VertretungScreen() {
     }, [])
   );
 
-  const onRefresh = React.useCallback((label) => {
-    setRefreshing(true);
-
-    getLatestData("311441", "endlichwieder").then(results => {
-      setRefreshing(false);
-      insertEntries(results, label);
-    });
+  const onRefresh = React.useCallback(() => {
+    load();
   }, []);
 
   const classes = [];

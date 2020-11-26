@@ -9,9 +9,7 @@ import FlatButton from '../shared/button'
 
 export default function HausaufgabenScreen() {
   const [todos, setTodos] = useState([
-    { text: 'Seite 5', key: '1', fach: 'Mathe' },
-    { text: 'create an app', key: '2', fach: 'Mathe' },
-    { text: 'play on the switch', key: '3', fach: 'Mathe' },
+    { text: 'Erstelle eine Hausaufgabe', key: '1', fach: 'Beispiel' },
   ]);
 
   const pressHandler = () => {

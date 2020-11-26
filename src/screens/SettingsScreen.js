@@ -35,7 +35,7 @@ export default function SettingsScreen() {
   }
 
   const onChangeClass = (item) => {
-    AsyncStorage.setItem('class', item.label);
+    AsyncStorage.setItem('class', item.value);
   };
 
   return (
