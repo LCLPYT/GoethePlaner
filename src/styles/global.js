@@ -6,17 +6,20 @@ export const globalStyles = StyleSheet.create({
     },
       title: {
         textAlign: 'center',
-        fontSize: 25,
+        fontSize: 20,
+        fontWeight: "bold",
         color: '#14213D',
-        flex: 1
+        flex: 1,
+        paddingVertical: 3,
+        paddingTop: 4,
     },
     titlebar: {
         backgroundColor: '#f2f2f2',
         paddingVertical: 10,
-        shadowRadius: 5,
+        shadowRadius: 2,
         shadowColor: 'black',
         shadowOpacity: 0.25,
-        elevation: 10,
+        elevation: 5,
         shadowOffset: { width: 0, height: 3 },
 
         flexDirection: 'row', alignItems:'center'

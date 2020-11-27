@@ -24,15 +24,13 @@ export default function HausaufgabenScreen() {
   };
 
   const delHandler = (key) => {
+    setState(false);
     setTodos(prevTodos => {
       AsyncStorage.setItem("homework", JSON.stringify(prevTodos.filter(todo => todo.key != key)));
       return prevTodos.filter(todo => todo.key != key);
     });
   };
 
-  const pressHandler2 = (key) => {
-    setState('../../images/checkbox_checked.png')
-  };
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -51,7 +49,7 @@ export default function HausaufgabenScreen() {
     });
   };
 
-  const [state, setState] = useState('../../images/checkbox.png');
+  const [state, setState] = useState(true);
 
   return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

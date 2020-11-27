@@ -28,6 +28,7 @@ export default function AddTodo({ submitHandler, pressHandler }) {
             style={styles.input}
             placeholder='Aufgabe'
             onChangeText={changeHandler}
+            maxLength={62}
           />
 
           <DropDownPicker
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     borderColor: '#b2b2b2',
     borderWidth: 2,
+    paddingStart: 10,
     margin: 10,
     borderRadius: 10,
   },

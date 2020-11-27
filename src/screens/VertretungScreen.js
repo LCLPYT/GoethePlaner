@@ -21,19 +21,23 @@ export default function VertretungScreen() {
   const insertEntries = (contents, filter) => {
     setEntries(prev => {
       let entries = [];
-      entries.push({ key: Math.random().toString(), type: 'margin' });
+      var date;
       contents.forEach(content => {
-        entries.push({ key: Math.random().toString(), type: 'date', date: content.date });
-        entries.push({ key: Math.random().toString(), type: 'news', news: content.news });
+        if(date !== content.date.toString()){
+          entries.push({ key: Math.random().toString(), type: 'margin' });
+          entries.push({ key: Math.random().toString(), type: 'date', date: content.date });
+          entries.push({ key: Math.random().toString(), type: 'news', news: content.news });
+          date = content.date.toString();
+        }
         let added = 0;
         content.entries.forEach(entry => {
           if (filter !== undefined && !entry.classes.includes(filter)) return;
           added++;
           entries.push({ key: Math.random().toString(), type: 'change', entry: entry });
         });
-        if (added <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
-        entries.push({ key: Math.random().toString(), type: 'margin' });
+          //if (added <= 0) entries.push({ key: Math.random().toString(), type: 'none', text: 'Keine Planänderungen' })
       });
+      entries.push({ key: Math.random().toString(), type: 'margin' });
       return entries;
     });
   };

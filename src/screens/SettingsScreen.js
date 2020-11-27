@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, addons } from 'react-native';
 import { globalStyles } from '../styles/global';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-community/async-storage'
@@ -26,6 +26,9 @@ export default function SettingsScreen() {
         } else {
           for (let i = value.length; i > hoursPerWeek; i--) {
             value.pop();
+          }
+          for(let i = value.length-5; i > hoursPerWeek-5; i--){
+            value[i].doubleLesson = false;
           }
         }
         console.log(value);
