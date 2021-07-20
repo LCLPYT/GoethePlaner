@@ -23,7 +23,7 @@
     "node-html-parser": "^1.2.20",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
-    "react-native": "0.63.2",
+    "react-native": "0.64.1",
     "react-native-buttonex": "^2.0.8",
     "react-native-color-palette": "^2.2.0",
     "react-native-color-wheel": "^0.1.7",
